@@ -94,22 +94,22 @@ function foda() {
   if (dadosimportantesultimojogo === "nRanked") {
     ultpart.innerHTML = "Unranked";
   } else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo === 0) {
-    ultpart.innerHTML = dadosimportantesmmr + " pts";
+    ultpart.innerHTML =  "RR " + dadosimportantesmmr + " P";
     bgpts.style.backgroundcolor = "grey";
   } else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo >= 1) {
-    ultpart.innerHTML = dadosimportantesmmr + " pts";
+    ultpart.innerHTML =  "RR " + dadosimportantesmmr + " P";
     atualporc = "100%";
     cssbarradepts.setProperty("--progresspontinho", atualporc);
   } else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo <= -1) {
-    ultpart.innerHTML = dadosimportantesmmr + " pts";
+    ultpart.innerHTML =  "RR " + dadosimportantesmmr + " P";
     atualporc = "0%";
     cssbarradepts.setProperty("--progresspontinho", atualporc);
   } else if (dadosimportantesultimojogo === 0) {
-    ultpart.innerHTML = dadosimportantesmmr + " pts";
+    ultpart.innerHTML =  "RR " + dadosimportantesmmr + " P";
   } else if (dadosimportantesultimojogo >= 1) {
-    ultpart.innerHTML = dadosimportantesmmr + " pts";
+    ultpart.innerHTML =  "RR " + dadosimportantesmmr + " P";
   } else if (dadosimportantesultimojogo <= -1) {
-    ultpart.innerHTML = dadosimportantesmmr + " pts";
+    ultpart.innerHTML =  "RR " + dadosimportantesmmr + " P";
   }
   document.getElementById("headerburrao").style.color = "#" + corfonte;
 }
