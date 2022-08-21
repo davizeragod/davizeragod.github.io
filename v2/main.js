@@ -81,7 +81,7 @@ function foda() {
   }
   document.getElementById("imgRank").src = "./Resources/" + dadosimportantesTier + ".png"
   var atualporc = dadosimportantesmmr + "%";
-  document.getElementById("headerburrao").innerHTML = dadosimportantesElo;
+  document.getElementById("headerburrao").innerHTML = dadosimportantesElo + '&nbsp &nbsp &nbsp;' +dadosimportantesmmr + "RR";
   if (dadosimportantesTier === 27) {
     leaderboard();
     document.getElementById("headerburrao").innerHTML =
