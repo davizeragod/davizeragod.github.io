@@ -61,6 +61,7 @@ function main() {
   checkifnull = jsonData.data.current_data.currenttier;
   dadosimportantesElo = jsonData.data.current_data.currenttierpatched;
   dadosimportantesmmr = jsonData.data.current_data.ranking_in_tier;
+  dadosimportantesmmrtxt = jsonData.data.current_data.ranking_in_tier;
   dadosimportantesTier = jsonData.data.current_data.currenttier;
   retornostatus = jsonData.status;
   dadosimportantesultimojogo =
@@ -80,7 +81,7 @@ function foda() {
   }
   document.getElementById("imgRank").src = "./Resources/" + dadosimportantesTier + ".png"
   var atualporc = dadosimportantesmmr + "%";
-  document.getElementById("headerburrao").innerHTML = dadosimportantesElo + '&nbsp &nbsp &nbsp;' +dadosimportantesmmr + "RR";
+  document.getElementById("headerburrao").innerHTML = dadosimportantesElo + '&nbsp &nbsp &nbsp;' +dadosimportantesmmrtxt + "RR";
   if (dadosimportantesTier === 27) {
     leaderboard();
     document.getElementById("headerburrao").innerHTML =
