@@ -15,6 +15,7 @@ var dadosimportantesmmr = {};
 var dadosimportantesultimojogo = {};
 var dadosimportantesnickconta = {};
 var leaderboardajustado = {};
+var checkifnull = {};
 var dadosimportantesTier = {};
 var dadosisunranked = {};
 var dadosleaderboard = {};
@@ -57,9 +58,7 @@ function main() {
   );
   var jsonData = JSON.parse(dados);
   retornostatus = jsonData.status;
-  if (retornostatus != "200") {
-    main()
-  }
+  checkifnull = jsonData.data.current_data.currenttier;
   dadosimportantesElo = jsonData.data.current_data.currenttierpatched;
   dadosimportantesmmr = jsonData.data.current_data.ranking_in_tier;
   dadosimportantesTier = jsonData.data.current_data.currenttier;
@@ -125,10 +124,14 @@ if (icourl.length == 0) {
 } else {
   document.getElementById("imgcantinho").style.content = "url(" + icourl + ")";
 }
+
 main();
-rankatuallog = dadosimportantesTier;
 foda();
-
-
+rankatuallog = dadosimportantesTier;
+function checadados(){
+  if (retornostatus == "200" && checkifnull != null){
+    foda()
+    }
+}
 setInterval(main, 15000);
-setInterval(foda, 15000);
+setInterval(checadados, 15000);
