@@ -57,6 +57,7 @@ function main() {
       idusuario
   );
   var jsonData = JSON.parse(dados);
+  isunrankedseasonatual = jsonData.data.by_season.e5a2.number_of_games;
   retornostatus = jsonData.status;
   checkifnull = jsonData.data.current_data.currenttier;
   dadosimportantesElo = jsonData.data.current_data.currenttierpatched;
@@ -71,7 +72,7 @@ function main() {
 }
 
 function foda() {
-  if (dadosisunranked != "0") {
+  if (isunrankedseasonatual <= "4") {
     dadosimportantesElo = "Unranked";
     dadosimportantesmmr = "100";
     dadosimportantesultimojogo = "nRanked";
@@ -92,7 +93,7 @@ function foda() {
 
   const ultpart = document.getElementById("ultimapartida");
   if (dadosimportantesultimojogo === "nRanked") {
-    ultpart.innerHTML = "Unranked";
+    ultpart.innerHTML = "Unranked " + isunrankedseasonatual+"/5";
   } else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo === 0) {
     ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
     bgpts.style.backgroundcolor = "grey";
