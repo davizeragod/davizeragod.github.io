@@ -24,6 +24,7 @@ const bgpts = document.getElementById("ultmmr");
 const corbg = document.getElementById("textonmrank");
 var rankatuallog = {};
 var rankatualizado = {};
+var isunrankedatoatual = {};
 
 function fazGet(url) {
   let request = new XMLHttpRequest();
@@ -57,7 +58,8 @@ function main() {
       idusuario
   );
   var jsonData = JSON.parse(dados);
-  isunrankedseasonatual = jsonData.data.by_season.e5a2.number_of_games;
+  isunrankedatoatual = jsonData.data.by_season.e5a2.number_of_games;
+  nodataseasonatual = jsonData.data.by_season.e5a2.error;
   retornostatus = jsonData.status;
   checkifnull = jsonData.data.current_data.currenttier;
   dadosimportantesElo = jsonData.data.current_data.currenttierpatched;
@@ -68,14 +70,19 @@ function main() {
   dadosimportantesultimojogo =
     jsonData.data.current_data.mmr_change_to_last_game;
   dadosimportantesnickconta = jsonData.data.name;
-  dadosisunranked = jsonData.data.current_data.games_needed_for_rating;
+  jateverank = jsonData.data.current_data.old;
 }
 
 function foda() {
-  if (isunrankedseasonatual <= "4") {
+  if (isunrankedatoatual <= "4" || nodataseasonatual == "No data Available") {
     dadosimportantesElo = "Unranked";
     dadosimportantesmmr = "100";
     dadosimportantesultimojogo = "nRanked";
+    dadosimportantesTier = "Unranked"
+    dadosimportantesmmrtxt
+    if (nodataseasonatual = "No data Available") {
+      isunrankedatoatual = 0;
+    }
   }
   if (dadosimportantesmmr > "100") {
     dadosimportantesmmr = "0";
@@ -83,6 +90,10 @@ function foda() {
   document.getElementById("imgRank").src = "./Resources/" + dadosimportantesTier + ".png"
   var atualporc = dadosimportantesmmr + "%";
   document.getElementById("headerburrao").innerHTML = dadosimportantesElo + '&nbsp &nbsp &nbsp;' +dadosimportantesmmrtxt + "RR";
+  if (dadosimportantesultimojogo === "nRanked"){
+    document.getElementById("headerburrao").innerHTML =
+      dadosimportantesElo;
+  }
   if (dadosimportantesTier === 27) {
     leaderboard();
     document.getElementById("headerburrao").innerHTML =
@@ -92,9 +103,11 @@ function foda() {
   cssbarradepts.setProperty("--progresspontinho", atualporc);
 
   const ultpart = document.getElementById("ultimapartida");
-  if (dadosimportantesultimojogo === "nRanked") {
-    ultpart.innerHTML = "Unranked " + isunrankedseasonatual+"/5";
-  } else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo === 0) {
+  if (dadosimportantesultimojogo === "nRanked" && jateverank === false) {
+    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/1";
+  } else if (dadosimportantesultimojogo === "nRanked" && jateverank === true) {
+    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/5";}
+  else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo === 0) {
     ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
     bgpts.style.backgroundcolor = "grey";
   } else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo >= 1) {
