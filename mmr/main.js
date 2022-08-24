@@ -25,6 +25,7 @@ const corbg = document.getElementById("textonmrank");
 var rankatuallog = {};
 var rankatualizado = {};
 var isunrankedatoatual = {};
+var jogosnecessarios = {};
 
 function fazGet(url) {
   let request = new XMLHttpRequest();
@@ -71,10 +72,11 @@ function main() {
     jsonData.data.current_data.mmr_change_to_last_game;
   dadosimportantesnickconta = jsonData.data.name;
   jateverank = jsonData.data.current_data.old;
+  jogosnecessarios = jsonData.data.current_data.games_needed_for_rating;
 }
 
-function foda() {
-  if (isunrankedatoatual <= "4" || nodataseasonatual == "No data Available") {
+function foda() {  
+  if (isunrankedatoatual <= "1" || nodataseasonatual == "No data Available" && jogosnecessarios == "1") {
     dadosimportantesElo = "Unranked";
     dadosimportantesmmr = "100";
     dadosimportantesultimojogo = "nRanked";
