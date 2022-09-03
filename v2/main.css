@@ -39,9 +39,19 @@ body {
 }
 
 #headerburrao {
+  top: -10px;
   left: 100px;
-  position: relative;
+  position: absolute;
   font-size: 27px;
+}
+#WLvalue{
+  top: 37px;
+  left: 100px;
+  position: absolute;
+  font-size: 18px;
+  margin:0;
+  padding:0;
+  color: white;
 }
 
 #ultmmr {
