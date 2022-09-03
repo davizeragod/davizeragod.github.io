@@ -26,17 +26,6 @@ var rankatuallog = {};
 var rankatualizado = {};
 var isunrankedatoatual = {};
 var jogosnecessarios = {};
-let puuid = {};
-let partida1 = {};
-let partida2 = {};
-let jsonDataWL = {};
-let reqpuuid = {};
-let dadoswl = {};
-let time = {};
-let win = 0;
-let lose = 0;
-let empatou = {};
-let semwc = url.searchParams.has("swl")
 
 function fazGet(url) {
   let request = new XMLHttpRequest();
@@ -163,79 +152,3 @@ function checadados(){
 }
 setInterval(main, 15000);
 setInterval(checadados, 15000);
-
-if (semwc === false){
-  function setapuuid(){
-    reqpuuid = fazGet("https://api.henrikdev.xyz/valorant/v1/account/"+
-      nmusuario +
-      "/" +
-      idusuario);
-      let parsepuuid = JSON.parse(reqpuuid)
-      puuid = parsepuuid.data.puuid;
-    }
-    
-    function get(){
-        dadoswl = fazGet("https://api.henrikdev.xyz/valorant/v3/matches/"
-          + regiao +
-          "/" +
-          nmusuario +
-          "/" +
-          idusuario + 
-         "?filter=competitive");
-        jsonDataWL = JSON.parse(dadoswl);
-    }
-    
-    function getprimeirapartida(){
-      get();
-      partida1 = jsonDataWL.data[0].metadata.matchid;
-    return partida1;
-    }
-    
-    function achatime(){
-        let timedojogador = jsonDataWL.data[0].players.all_players.find(jogador => jogador.puuid === puuid);
-        time = timedojogador.team;
-        return time.toLowerCase()
-    }
-    
-    function venceu(){
-        if(jsonDataWL.data[0].teams.red.has_won == false && jsonDataWL.data[0].teams.blue.has_won == false){
-            empatou = 'S'
-        }
-        else{
-            empatou = 'N'
-        }
-        timevenceu = jsonDataWL.data[0].teams[achatime()].has_won;
-        return timevenceu;
-    }
-    
-    function AtualizaVisual(){
-        document.getElementById("WLvalue").innerHTML = win + " Win / " + lose + " Lose";
-    }
-    
-    function winlose(){
-        get();
-        venceu();
-        partida2 = jsonDataWL.data[0].metadata.matchid;
-        if (partida2 != partida1){
-                if(timevenceu === true){
-                    var totalwin = win + 1;
-                    win = totalwin;
-                    partida1 = jsonDataWL.data[0].metadata.matchid;
-                    AtualizaVisual();
-                }
-                else if(timevenceu===false && empatou === 'N'){
-                    var totallose = lose + 1;
-                    lose = totallose;
-                    partida1 = jsonDataWL.data[0].metadata.matchid;
-                }
-        }
-        AtualizaVisual()
-    }
-    
-    
-    setapuuid()
-    getprimeirapartida()
-    setInterval(winlose, 30000);
-    AtualizaVisual();
-}
-
