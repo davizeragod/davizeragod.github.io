@@ -160,6 +160,9 @@ function foda() {
   }
   document.getElementById("headerburrao").style.color = "#" + corfonte;
   document.getElementById("WLvalue").style.color = "#" + corfonte;
+  document.getElementById('kd').style.color = "#" + corfonte;
+  document.getElementById('hsr').style.color = "#" + corfonte;
+
 }
 
 if (sParams.get("alpha") === "ss") {
