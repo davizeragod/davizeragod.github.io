@@ -73,8 +73,8 @@ function main() {
       idusuario
   );
   var jsonData = JSON.parse(dados);
-  isunrankedatoatual = jsonData.data.by_season.e5a3.number_of_games;
-  nodataseasonatual = jsonData.data.by_season.e5a3.error;
+  isunrankedatoatual = jsonData.data.by_season.e6a1.number_of_games;
+  nodataseasonatual = jsonData.data.by_season.e6a1.error;
   retornostatus = jsonData.status;
   checkifnull = jsonData.data.current_data.currenttier;
   dadosimportantesElo = jsonData.data.current_data.currenttierpatched;
@@ -185,7 +185,7 @@ if (semwc === false){
           nmusuario +
           "/" +
           idusuario + 
-         "?filter=competitive");
+         "?filter=competitive&size=1");
         jsonDataWL = JSON.parse(dadoswl);
     }
     
