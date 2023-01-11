@@ -120,7 +120,7 @@ function foda() {
 
   const ultpart = document.getElementById("ultimapartida");
   if (dadosimportantesultimojogo === "nRanked" && jateverank === false) {
-    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/1";
+    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/5";
   } else if (dadosimportantesultimojogo === "nRanked" && jateverank === true) {
     ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/5";}
   else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo === 0) {
