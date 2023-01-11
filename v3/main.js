@@ -107,15 +107,12 @@ function main() {
 }
 
 function foda() {
-  if (isunrankedatoatual < "1" || nodataseasonatual == "No data Available" && jogosnecessarios == "1") {
+  if (isunrankedatoatual < "4" || nodataseasonatual == "No data Available" && jogosnecessarios == "1") {
     dadosimportantesElo = "Unranked";
     dadosimportantesmmr = "100";
     dadosimportantesultimojogo = "nRanked";
     dadosimportantesTier = "Unranked"
     dadosimportantesmmrtxt
-    if (nodataseasonatual = "No data Available") {
-      isunrankedatoatual = 0;
-    }
   }
   if (dadosimportantesmmr > "100") {
     dadosimportantesmmr = "0";
