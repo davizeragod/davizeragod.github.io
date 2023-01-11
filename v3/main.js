@@ -112,7 +112,10 @@ function foda() {
     dadosimportantesmmr = "100";
     dadosimportantesultimojogo = "nRanked";
     dadosimportantesTier = "Unranked"
-    dadosimportantesmmrtxt
+    dadosimportantesmmrtxt 
+    if (nodataseasonatual = "No data Available") {
+      isunrankedatoatual = 0;
+    }
   }
   if (dadosimportantesmmr > "100") {
     dadosimportantesmmr = "0";
