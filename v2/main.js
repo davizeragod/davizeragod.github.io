@@ -94,7 +94,7 @@ function foda() {
     dadosimportantesmmrtxt
     if (nodataseasonatual = "No data Available") {
       isunrankedatoatual = 0;
-    }
+    } 
   }
   if (dadosimportantesmmr > "100") {
     dadosimportantesmmr = "0";
