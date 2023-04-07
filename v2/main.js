@@ -153,14 +153,22 @@ if (icourl.length == 0) {
   document.getElementById("imgcantinho").style.content = "url(" + icourl + ")";
 }
 
+function thinking(){
+  if (document.getElementById("imgRank").src === window.location.origin + "/v2/Resources/Load.png"){
+    location.reload()
+  } 
+}
+setTimeout(thinking,5000);
 main();
 foda();
+
 rankatuallog = dadosimportantesTier;
 function checadados(){
   if (retornostatus == "200" && checkifnull != null){
     foda()
     }
 }
+
 setInterval(main, 15000);
 setInterval(checadados, 15000);
 
