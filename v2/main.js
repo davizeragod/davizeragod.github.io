@@ -158,7 +158,7 @@ function thinking(){
     location.reload()
   } 
 }
-setTimeout(thinking,5000);
+setTimeout(thinking,10000);
 main();
 foda();
 
