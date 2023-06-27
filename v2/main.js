@@ -69,8 +69,8 @@ function main() {
       idusuario
   );
   var jsonData = JSON.parse(dados);
-  isunrankedatoatual = jsonData.data.by_season.e6a3.number_of_games;
-  nodataseasonatual = jsonData.data.by_season.e6a3.error;
+  isunrankedatoatual = jsonData.data.by_season.e7a1.number_of_games;
+  nodataseasonatual = jsonData.data.by_season.e7a1.error;
   retornostatus = jsonData.status;
   checkifnull = jsonData.data.current_data.currenttier;
   dadosimportantesElo = jsonData.data.current_data.currenttierpatched;
@@ -116,9 +116,9 @@ function foda() {
 
   const ultpart = document.getElementById("ultimapartida");
   if (dadosimportantesultimojogo === "nRanked" && jateverank === false) {
-    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/1";
+    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/5";
   } else if (dadosimportantesultimojogo === "nRanked" && jateverank === true) {
-    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/1";}
+    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/5";}
   else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo === 0) {
     ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
     bgpts.style.backgroundcolor = "grey";
@@ -224,11 +224,11 @@ if (semwc === false){
         get();
         venceu();
         partida2 = jsonDataWL.data[0].metadata.matchid;
-        if (partida2 != partida1){
+        if (partida2 != partid){
                 if(timevenceu === true){
                     var totalwin = win + 1;
                     win = totalwin;
-                    partida1 = jsonDataWL.data[0].metadata.matchid;
+                    partid = jsonDataWL.data[0].metadata.matchid;
                     AtualizaVisual();
                 }
                 else if(timevenceu===false && empatou === 'N'){
