@@ -224,11 +224,11 @@ if (semwc === false){
         get();
         venceu();
         partida2 = jsonDataWL.data[0].metadata.matchid;
-        if (partida2 != partid){
+        if (partida2 != partida1){
                 if(timevenceu === true){
                     var totalwin = win + 1;
                     win = totalwin;
-                    partid = jsonDataWL.data[0].metadata.matchid;
+                    partida1 = jsonDataWL.data[0].metadata.matchid;
                     AtualizaVisual();
                 }
                 else if(timevenceu===false && empatou === 'N'){
