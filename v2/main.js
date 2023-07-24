@@ -56,7 +56,9 @@ function leaderboard() {
       idusuario
   );
   var jsonDataLB = JSON.parse(lb);
-  dadosleaderboard = jsonDataLB.data[0].leaderboardRank;
+      if (jsonDataLB.status === 404){
+        dadosleaderboard = ' '
+      }else   dadosleaderboard = jsonDataLB.data[0].leaderboardRank;
 }
 
 function main() {
@@ -108,6 +110,11 @@ function foda() {
   }
   if (dadosimportantesTier === 27) {
     leaderboard();
+    if (dadosleaderboard === " "){    
+      document.getElementById("headerburrao").innerHTML =
+    dadosimportantesElo + " " + dadosimportantesmmrtxt + "RR";
+
+    } else
     document.getElementById("headerburrao").innerHTML =
       dadosimportantesElo + " #" + dadosleaderboard;
   }
