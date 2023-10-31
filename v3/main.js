@@ -78,7 +78,7 @@ function leaderboard() {
 
 function main() {
   let dados = fazGet(
-    "https://api.henrikdev.xyz/valorant/v1/mmr/" +
+    "https://api.henrikdev.xyz/valorant/v2/mmr/" +
       regiao +
       "/" +
       nmusuario +
@@ -86,33 +86,33 @@ function main() {
       idusuario
   );
   var jsonData = JSON.parse(dados);
-  //isunrankedatoatual = jsonData.data.by_season.e7a2.number_of_games;
-  //nodataseasonatual = jsonData.data.by_season.e7a2.error;
+  isunrankedatoatual = jsonData.data.by_season.e7a3.number_of_games;
+  nodataseasonatual = jsonData.data.by_season.e7a3.error;
   retornostatus = jsonData.status;
-  checkifnull = jsonData.data.currenttier;
-  dadosimportantesElo = jsonData.data.currenttierpatched;
-  dadosimportantesmmr = jsonData.data.ranking_in_tier;
-  dadosimportantesmmrtxt = jsonData.data.ranking_in_tier;
-  dadosimportantesTier = jsonData.data.currenttier;
+  checkifnull = jsonData.data.current_data.currenttier;
+  dadosimportantesElo = jsonData.data.current_data.currenttierpatched;
+  dadosimportantesmmr = jsonData.data.current_data.ranking_in_tier;
+  dadosimportantesmmrtxt = jsonData.data.current_data.ranking_in_tier;
+  dadosimportantesTier = jsonData.data.current_data.currenttier;
   retornostatus = jsonData.status;
   dadosimportantesultimojogo =
-    jsonData.data.mmr_change_to_last_game;
+    jsonData.data.current_data.mmr_change_to_last_game;
   dadosimportantesnickconta = jsonData.data.name;
-  jateverank = jsonData.data.old;
-  jogosnecessarios = jsonData.data.games_needed_for_rating;
+  jateverank = jsonData.data.current_data.old;
+  jogosnecessarios = jsonData.data.current_data.games_needed_for_rating;
 }
 
 function foda() {
-  // if (isunrankedatoatual < "1" || nodataseasonatual == "No data Available" && jogosnecessarios == "1") {
-  //   dadosimportantesElo = "Unranked";
-  //   dadosimportantesmmr = "100";
-  //   dadosimportantesultimojogo = "nRanked";
-  //   dadosimportantesTier = "Unranked"
-  //   dadosimportantesmmrtxt 
-  //   if (nodataseasonatual = "No data Available") {
-  //     isunrankedatoatual = 0;
-  //   }
-  // }
+  if (isunrankedatoatual < "1" || nodataseasonatual == "No data Available" && jogosnecessarios == "1") {
+    dadosimportantesElo = "Unranked";
+    dadosimportantesmmr = "100";
+    dadosimportantesultimojogo = "nRanked";
+    dadosimportantesTier = "Unranked"
+    dadosimportantesmmrtxt 
+    if (nodataseasonatual = "No data Available") {
+      isunrankedatoatual = 0;
+    }
+  }
   if (dadosimportantesmmr > "100") {
     dadosimportantesmmr = "0";
   }
