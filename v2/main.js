@@ -88,7 +88,7 @@ function main() {
 }
 
 function foda() {
-  if (isunrankedatoatual < "4" || nodataseasonatual == "No data Available" && jogosnecessarios == "1") {
+  if (isunrankedatoatual < "1" || nodataseasonatual == "No data Available" && jogosnecessarios == "1") {
     dadosimportantesElo = "Unranked";
     dadosimportantesmmr = "100";
     dadosimportantesultimojogo = "nRanked";
@@ -123,9 +123,9 @@ function foda() {
 
   const ultpart = document.getElementById("ultimapartida");
   if (dadosimportantesultimojogo === "nRanked" && jateverank === false) {
-    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/5";
+    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/1";
   } else if (dadosimportantesultimojogo === "nRanked" && jateverank === true) {
-    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/5";}
+    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/1";}
   else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo === 0) {
     ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
     bgpts.style.backgroundcolor = "grey";
