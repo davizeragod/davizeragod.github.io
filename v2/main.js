@@ -71,8 +71,8 @@ function main() {
       idusuario
   );
   var jsonData = JSON.parse(dados);
-  isunrankedatoatual = jsonData.data.by_season.e8a2.number_of_games;
-  nodataseasonatual = jsonData.data.by_season.e8a2.error;
+  isunrankedatoatual = jsonData.data.by_season.e8a3.number_of_games;
+  nodataseasonatual = jsonData.data.by_season.e8a3.error;
   retornostatus = jsonData.status;
   checkifnull = jsonData.data.current_data.currenttier;
   dadosimportantesElo = jsonData.data.current_data.currenttierpatched;
