@@ -162,10 +162,12 @@ if (icourl.length == 0) {
 
 function thinking(){
   if (document.getElementById("imgRank").src === window.location.origin + "/v2/Resources/Load.png"){
-    location.reload()
+    document.getElementById("imgRank").style.visibility = "hidden"
+    document.getElementById("textonmrank").style.visibility = "hidden"
+    document.getElementById("ultmmr").style.visibility = "hidden"
   } 
 }
-setTimeout(thinking,10000);
+thinking();
 main();
 foda();
 
