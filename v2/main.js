@@ -39,6 +39,10 @@ let empatou = {};
 let semwc = url.searchParams.has("swl")
 let apikey = ''
 
+if (url.searchParams.has("apikey")){
+  apikey = url.searchParams.get("apikey")
+} else apikey = ''
+
 function fazGet(url) {
   let request = new XMLHttpRequest();
   request.open("GET", url+"?api_key="+apikey, false);
