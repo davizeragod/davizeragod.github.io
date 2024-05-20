@@ -37,7 +37,7 @@ let win = 0;
 let lose = 0;
 let empatou = {};
 let semwc = url.searchParams.has("swl")
-let apikey = url.searchParams.get("apikey");
+let apikey = ''
 
 function fazGet(url) {
   let request = new XMLHttpRequest();
