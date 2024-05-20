@@ -37,10 +37,11 @@ let win = 0;
 let lose = 0;
 let empatou = {};
 let semwc = url.searchParams.has("swl")
+let apikey = url.searchParams.get("apikey");
 
 function fazGet(url) {
   let request = new XMLHttpRequest();
-  request.open("GET", url, false);
+  request.open("GET", url+"?api_key="+apikey, false);
   request.send();
   return request.responseText;
 }
