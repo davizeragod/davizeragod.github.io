@@ -163,12 +163,10 @@ if (icourl.length == 0) {
 
 function thinking(){
   if (document.getElementById("imgRank").src === window.location.origin + "/v2/Resources/Load.png"){
-    document.getElementById("imgRank").style.visibility = "hidden"
-    document.getElementById("textonmrank").style.visibility = "hidden"
-    document.getElementById("ultmmr").style.visibility = "hidden"
+    location.reload()
   } 
 }
-thinking();
+setTimeout(thinking,10000);
 main();
 foda();
 
