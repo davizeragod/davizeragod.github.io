@@ -12,6 +12,7 @@ const iframetxt = document.getElementById("lblframe");
 const reg = document.getElementById("regiao");
 const idu = document.getElementById("lname");
 const nmu = document.getElementById("fname");
+const apikey = document.getElementById("apikey");
 const trchck = document.getElementById("transparentcheck");
 const disc = document.getElementById("bannerpic");
 const divdisc = document.getElementById("lblbanner");
@@ -48,6 +49,7 @@ botao.onclick = function () {
   let idusu = idu.value;
   let nmusu = nmu.value;
   let bgurl = urlbg.value;
+  let chaveapi = apikey.value;
   let iurl = urlicon.value;
   TxtUrlBg = {};
   TxtUrlIco = {};
@@ -93,7 +95,10 @@ botao.onclick = function () {
     "&iu=" +
     encodeURIComponent(iurl) +
     "&bu=" +
-    encodeURIComponent(bgurl);
+    encodeURIComponent(bgurl) +
+    "&apikey=" +
+    chaveapi;
+
 
   iframe.src = link.value;
   iframetxt.innerHTML = "Preview:";

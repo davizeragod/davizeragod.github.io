@@ -44,6 +44,11 @@ body {
   border-width: 1px;
   border-style: hidden;
 }
+#apikey {
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: hidden;
+}
 #butao {
   margin-top: 5px;
   font-family: "Montserrat", sans-serif;

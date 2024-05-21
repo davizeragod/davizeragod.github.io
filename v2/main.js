@@ -41,7 +41,12 @@ let apikey = ''
 
 if (url.searchParams.has("apikey")){
   apikey = url.searchParams.get("apikey")
-} else apikey = ''
+} else {
+  document.getElementById("imgRank").style.visibility = "hidden"
+  document.getElementById("textonmrank").style.visibility = "hidden"
+  document.getElementById("ultmmr").style.visibility = "hidden"
+  apikey = ''
+}
 
 function fazGet(url) {
   let request = new XMLHttpRequest();
