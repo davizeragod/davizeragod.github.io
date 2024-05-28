@@ -241,7 +241,7 @@ if (semwc === false){
     }
     
     function AtualizaVisual(){
-        document.getElementById("WLvalue").innerHTML = win + " Win / " + lose + " Lose";
+        document.getElementById("WLvalue").innerHTML = win + " Win / " + lose + " Loss";
     }
     
     function winlose(){
