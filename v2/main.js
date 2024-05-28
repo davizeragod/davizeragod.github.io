@@ -55,9 +55,16 @@ function fazGet(url) {
   return request.responseText;
 }
 
+function fazGetQuery(url) {
+  let request = new XMLHttpRequest();
+  request.open("GET", url+"&api_key="+apikey, false);
+  request.send();
+  return request.responseText;
+}
+
 function leaderboard() {
   const reglow = regiao.toLowerCase();
-  let lb = fazGet(
+  let lb = fazGetQuery(
     "https://api.henrikdev.xyz/valorant/v1/leaderboard/" +
       reglow +
       "?name=" +
@@ -200,7 +207,7 @@ if (semwc === false){
     }
     
     function get(){
-        dadoswl = fazGet("https://api.henrikdev.xyz/valorant/v3/matches/"
+        dadoswl = fazGetQuery("https://api.henrikdev.xyz/valorant/v3/matches/"
           + regiao +
           "/" +
           nmusuario +
