@@ -105,7 +105,7 @@ function main() {
 }
 
 function foda() {
-  if (isunrankedatoatual < "5" || nodataseasonatual == "No data Available" && jogosnecessarios == "5") {
+  if (isunrankedatoatual < "4" || nodataseasonatual == "No data Available" && jogosnecessarios == "1") {
     dadosimportantesElo = "Unranked";
     dadosimportantesmmr = "100";
     dadosimportantesultimojogo = "nRanked";
