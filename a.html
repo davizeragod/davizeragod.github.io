@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rank</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/font-awesome.css">
+</head>
+
+
+
+<section>
+    <div id=dv1>
+        <img src="recortado.png" alt="eu" id="imagemfoda">
+        Create a nice overlay to display your valorant rank!
+        <div id="geral">
+
+            <div id="div2">
+
+                <label for="fname" class="Nome1" id="Nick">Nickname:</label>
+
+                <input type="text" id="fname" class="Nome1" name="fname" placeholder="davizera">
+
+            </div>
+
+            <div id="div3">
+
+                <label for="lname" class="Nome2" id="tag">ID:</label>
+
+                <input type="text" id="lname" class="Nome2" name="lname" placeholder="0001">
+
+            </div>
+
+        </div>        
+        <div id="div4">            
+            <label for="apikey" class="Nome3" id="lbapikey">API Key:</label>
+
+            <input type="text" id="apikey" class="Nome3" name="apikey" placeholder="HDEV-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"> 
+            <i id="question" class="fa fa-question-circle" aria-hidden="true"></i>
+            <span class="tooltip-text">If you need help getting your API Key, click <a href="key.html" target="_blank" rel="noopener">HERE</a> <br><br>APIキーの生成方法がわからない場合は、<a href="key.html" target="_blank" rel="noopener">こちら</a>をクリックしてください。</span>
+        </div>
+
+        <label for="regiao">Select your region:</label>
+        <select name="regiao" id="regiao">
+            <option value="BR">BR</option>
+            <option value="AP">JP</option>
+            <option value="EU">EU</option>
+            <option value="KR">KR</option>
+            <option value="LATAM">LATAM</option>
+            <option value="NA">NA</option>
+        </select>
+
+        <button id="butao" type="submit">Submit</button>
+    </div>
+
+
+    <div id="maisopcoesdiv" class="container">
+        <input id="maisop" type="checkbox">
+        <label for="maisop" id="maisoptexto">Customize</label>
+        <div id="conteudoopcoes">
+            <div id="opcoes">
+
+
+
+                <div id="cores">
+                    <div id="cor1">
+                        <label for="color">Background Color</label><br>
+                        <input type="color" id="fundo" class="colorpicker" value="#282b30" /><br>
+                        <label for="txt">Text color</label><br>
+                        <input type="color" id="txt" class="colorpicker" value="#ffffff" />
+                    </div>
+                    <div id="transp">
+                        <label for="transparent">Transparent BG?</label><br>
+                        <input type="checkbox" id="transparentcheck" class="cbox" />
+                    </div>
+
+                </div>
+                <div id="imagens">
+                    <div id="imgbg">
+                        <label for="fundoimg" id="lblfundoimg">Use a custom Background</label>
+                        <input type="checkbox" id="fundoimg" class="cbox" />
+                        <label for="urlbg" class="texto">Please input the image URL</label>
+                        <input type="text" id="urlbg" class="iurls" disabled>
+                    </div>
+
+                    <div id="imgicon">
+                        <label for="iconlado">Use a custom icon</label><br>
+                        <input type="checkbox" id="iconlado" class="cbox" />
+                        <label for="urlicon" class="texto">Please input the image URL</label>
+                        <input type="text" id="urlicon" class="iurls" disabled="false">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+    </div>
+</section>
+<div id="geral2">
+    <label for="link">Just paste this link as a "Browser" in your OBS sources</label><br>
+    <textarea name="link" id="textbox" cols="30" rows="6" placeholder=" Your link goes here" readonly></textarea>
+</div>
+<div id="divframe">
+    <label for="framefoda" id="lblframe"></label>
+    <iframe id="framefoda" scrolling="no"></iframe>
+</div>
+<div id="banner">
+    <label for="banner" id="lblbanner">国内最大Valorant-JP Discord コミュニティ！</label>
+    <a href="https://discord.gg/x57aQ9dTse"><img src = "banner.png" id="bannerpic" alt="bannerdiscord"></a>
+</div>
+<br>
+<section>
+    <footer id="rodape">
+        Made with love by davizera, please consider following me on <a href="https://twitter.com/_davizera"
+            target="_blank" rel="noopener">Twitter</a><br>
+        Icon by the cute <a href="https://www.twitch.tv/touka3210" target="_blank" rel="noopener">よわむしとうか</a>❤️<br>
+        This tool was made possible by <a href="https://github.com/Henrik-3/unofficial-valorant-api"target="_blank" rel="noopener">Henrik's API</a>. Please support them if you can!<br>
+        If you want, you can donate me! <br>Any amount is appreciated and most of it will proceed to help Henrik maintain his API up. 
+        <form action="https://www.paypal.com/donate" method="post" target="_top">
+            <input type="hidden" name="business" value="C879VV4YTPXQC" />
+            <input type="hidden" name="no_recurring" value="0" />
+            <input type="hidden" name="currency_code" value="BRL" />
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+            <img alt="" border="0" src="https://www.paypal.com/en_BR/i/scr/pixel.gif" width="1" height="1" />
+            </form>
+            
+    </footer>
+</section>
+</body>
+<script src="js/main.js"></script>
+
+</html>
