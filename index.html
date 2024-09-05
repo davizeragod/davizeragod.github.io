@@ -1,24 +1,297 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+<!-- saved from url=(0030)https://davizeragod.github.io/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <link href="./css/output.css" rel="stylesheet">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rank</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="icon" type="image/x-icon" href="https://davizeragod.github.io/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link rel="stylesheet" href="./Rank_files/font-awesome.css">
 </head>
 
 
 
-<section>
-    <div id=dv1>
-        <img src="recortado.png" alt="eu" id="imagemfoda">
+<body class=" flex flex-col text-sm overflow-x-hidden underline-offset-4    "> 
+    <!-- rounded shadow-lg border border-black border-opacity-20 -->
+    <main id="mainSection" class="p-8 flex flex-col md:flex-row grad-2 bg-no-repeat relative min-h-screen text-indigo-50-shadow">
+        
+        <div class="card card-border grad z-40 gap-6  flex basis-1/2 reveal -r env-fadein active" style="--animationtime: 2s">
+            <h1 class="lg:text-4xl text-2xl font-bold border-b py-4 border-opacity-50 text-indigo-50" >Create a nice overlay to display your Valorant rank!</h1>
+            <div class="flex flex-row flex-wrap h-full grow-0 shrink basis-0">
+            
+                <label class="flex flex-col w-1/2 p-2 shrink ">
+                    Nickname:
+                    <input type="text" id="fname" name="nmusuario" placeholder="Nickname">
+                </label>
+
+                <label class="flex flex-col w-1/2 p-2 shrink">
+                    ID:
+                    <input type="text" id="lname" name="idusuario" placeholder="0001">
+                </label>
+
+
+                <label class="flex flex-col w-1/2 p-2 shrink">
+                    API Key:
+                    <input type="text" id="apikey" name="apikey" placeholder="HDEV-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"> 
+                </label>
+
+                <label class="flex flex-col w-1/2 p-2 shrink">
+                    Region:
+                    <select name="regiao" id="regiao">
+                        <option value="BR">BR</option>
+                        <option value="AP">JP</option>
+                        <option value="EU">EU</option>
+                        <option value="KR">KR</option>
+                        <option value="LATAM">LATAM</option>
+                        <option value="NA">NA</option>
+                    </select>
+                </label>
+                
+                <label class="flex flex-col w-1/2 p-2 shrink">
+                    <span class="tooltip-text">If you need help getting your API Key, click 
+                        <a href="https://davizeragod.github.io/key.html" target="_blank" rel="noopener">HERE</a><br/>
+                        APIキーの生成方法がわからない場合は、<br/><a href="https://davizeragod.github.io/key.html" target="_blank" rel="noopener">こちら</a>をクリックしてください。</span>
+
+                </label>
+                <div class="p-2 w-1/2 relative dropdown">
+                    <button id="toggleMenu" class="text-center p-2 rounded-md w-full transition-all duration-300 grad-3  border border-slate-800 border-opacity-30 ">
+                        Customize
+                    </button>
+
+                    <div id="menu" class="z-30 hidden w-full card card-border grad absolute -left-full md:left-full md:-top-full top-full md:ml-10 md:mt-0 mt-8 reveal -r  fade-bottom" >
+                        
+                        <label class="flex flex-col py-2">
+                            Background Color:
+                            <input name="color" type="color" id="fundo" class="colorpicker" value="#282b30">
+                        </label>
+
+                        <label class="flex flex-col py-2">
+                            Transparent Background:
+                            <input name="alpha" class="p-2" type="checkbox" id="transparentcheck" class="cbox">
+                        </label>
+
+                        <label class="flex flex-col py-2">
+                            Text Color:
+                            <input name="fontcolor" type="color" id="txt" class="colorpicker" value="#ffffff">
+                        </label>
+
+                        <label class="flex flex-col py-2">
+                            Custom Background (URL):
+                            <input name="bu" id="txt" placeholder="https://davizeragod.github.io/...">
+                        </label>
+
+                        <label class="flex flex-col py-2">
+                            Custom Icon (URL):
+                            <input name="iu" id="txt" placeholder="https://davizeragod.github.io/...">
+                        </label>
+
+                        <button id="closeDropdown" class="text-center p-2 rounded-md w-full transition-all duration-300 grad-3 border border-slate-800 border-opacity-30">Close</button>
+
+                    </div>
+                </div>
+
+                <label class="flex flex-col w-1/2 p-2 shrink">
+                    <p class="opacity-50">OBS Browser Copy Link:</p>
+                    <input id="linkUrl" type="text" class="border-none"  placeholder="https://paste.on.obs/as/browser" readonly> 
+                </label>
+                <div class="p-2 w-1/2 relative">
+                    <button id="copyLink" class="hidden text-center p-2 rounded-md w-full transition-all duration-300 grad-4 border border-slate-800 border-opacity-30 ">
+                        <div class="flex flex-row items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 px-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z"/>
+                                <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1"/>
+                            </svg>
+                        
+                            Copy link to clipboard
+                        </div>
+                    </button>
+                </div>
+
+            </div>
+                            
+            <div id="frame-area" class="w-full flex-grow flex flex-col items-center justify-center relative text-indigo-50 mt-4">
+                <iframe class="w-[368px] bg-slate-700 rounded-3xl hidden" scrolling="no" src="https://davizeragod.github.io/v2/main.html"></iframe>
+                <div class="spinner mt-8">
+                    <div class="spinner-item w-14 "></div>
+                </div>
+                <div class="spinner">loading preview</div>
+            </div>
+            
+            <div class="overflow-hidden absolute top-0 right-0 text-indigo-50 p-2 ">
+                powered by <a href="https://github.com/Henrik-3/unofficial-valorant-api" target="_blank" rel="noopener">Henrik's API</a>
+            </div>
+        </div>
+        <div class="w-1/2 items-center flex justify-center md:mx-auto my-8">
+            <div class="relative w-6/12 min-w-[20em]">
+                <div id="pfp" class="rounded-full bg-indigo-50 w-full border-4 border-indigo-500 shadow-lg fade-top reveal -r active relative" style="--animationtime: 1s">
+                    <img src="https://davizeragod.github.io/recortado.png" class="h-fit mt-auto select-none active"  alt="eu" id="imagemfoda"/>
+                </div>
+                <div class="2xl:text-base absolute top-0 left-0 bg-indigo-100 rounded-md p-2 z-10 shadow-md border-2 border-indigo-500 font-bold env-fadein reveal -r active" style="--animationtime: 2s">
+                    <a class="text-black hover:text-indigo-700" href="https://twitter.com/_davizera" target="_blank" rel="noopener">@davizera</a>
+                </div>
+                <div class="2xl:text-base absolute bottom-0 right-0 bg-indigo-500 rounded-md p-2 z-10 shadow-md border-2 border-indigo-500 font-bold text-nowrap env-fadein reveal -r active" style="--animationtime: 2s">Icon by 
+                    <a class="touka" href="https://www.twitch.tv/touka3210" target="_blank" rel="noopener">
+                    よわむしとうか
+                </a>
+                </div>
+            </div>
+            <header class="header absolute md:top-0 right-0 px-8 xl:py-8 py-6 fade-right reveal -r active z-10" style="--animationtime: 1s;">
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#help">Help</a></li>
+                    <li><a href="#donation">Donation</a></li>
+                </ul>
+            </header>
+        </div>
+
+        <svg viewBox="0 0 960 250" class="low1 absolute bottom-0 right-0 left-0 z-0">     
+            <path d="" class="fill-indigo-200">
+                <animate attributeName="d" 
+                values="
+                M0 149L26.7 148.5C53.3 148 106.7 147 160 153.2C213.3 159.3 266.7 172.7 320 175C373.3 177.3 426.7 168.7 480 158.2C533.3 147.7 586.7 135.3 640 135.5C693.3 135.7 746.7 148.3 800 150.5C853.3 152.7 906.7 144.3 933.3 140.2L960 136L960 301L933.3 301C906.7 301 853.3 301 800 301C746.7 301 693.3 301 640 301C586.7 301 533.3 301 480 301C426.7 301 373.3 301 320 301C266.7 301 213.3 301 160 301C106.7 301 53.3 301 26.7 301L0 301Z;
+                M0 168L26.7 164.5C53.3 161 106.7 154 160 152.8C213.3 151.7 266.7 156.3 320 171.2C373.3 186 426.7 211 480 216C533.3 221 586.7 206 640 190.3C693.3 174.7 746.7 158.3 800 159.3C853.3 160.3 906.7 178.7 933.3 187.8L960 197L960 301L933.3 301C906.7 301 853.3 301 800 301C746.7 301 693.3 301 640 301C586.7 301 533.3 301 480 301C426.7 301 373.3 301 320 301C266.7 301 213.3 301 160 301C106.7 301 53.3 301 26.7 301L0 301Z;
+                M0 149L26.7 148.5C53.3 148 106.7 147 160 153.2C213.3 159.3 266.7 172.7 320 175C373.3 177.3 426.7 168.7 480 158.2C533.3 147.7 586.7 135.3 640 135.5C693.3 135.7 746.7 148.3 800 150.5C853.3 152.7 906.7 144.3 933.3 140.2L960 136L960 301L933.3 301C906.7 301 853.3 301 800 301C746.7 301 693.3 301 640 301C586.7 301 533.3 301 480 301C426.7 301 373.3 301 320 301C266.7 301 213.3 301 160 301C106.7 301 53.3 301 26.7 301L0 301Z"
+                dur="6s" repeatCount="indefinite"/>
+            </path>
+            <path d="" class="fill-indigo-50">
+                <animate attributeName="d" dur="6s" repeatCount="indefinite"
+                values="
+                M0 232L22.8 233.3C45.7 234.7 91.3 237.3 137 236C182.7 234.7 228.3 229.3 274 226C319.7 222.7 365.3 221.3 411.2 216.2C457 211 503 202 548.8 199.8C594.7 197.7 640.3 202.3 686 209C731.7 215.7 777.3 224.3 823 226.5C868.7 228.7 914.3 224.3 937.2 222.2L960 220L960 301L937.2 301C914.3 301 868.7 301 823 301C777.3 301 731.7 301 686 301C640.3 301 594.7 301 548.8 301C503 301 457 301 411.2 301C365.3 301 319.7 301 274 301C228.3 301 182.7 301 137 301C91.3 301 45.7 301 22.8 301L0 301Z;
+                M0 235L22.8 236.3C45.7 237.7 91.3 240.3 137 243C182.7 245.7 228.3 248.3 274 241.5C319.7 234.7 365.3 218.3 411.2 213.7C457 209 503 216 548.8 224.2C594.7 232.3 640.3 241.7 686 238.2C731.7 234.7 777.3 218.3 823 214.3C868.7 210.3 914.3 218.7 937.2 222.8L960 227L960 301L937.2 301C914.3 301 868.7 301 823 301C777.3 301 731.7 301 686 301C640.3 301 594.7 301 548.8 301C503 301 457 301 411.2 301C365.3 301 319.7 301 274 301C228.3 301 182.7 301 137 301C91.3 301 45.7 301 22.8 301L0 301Z;
+                M0 232L22.8 233.3C45.7 234.7 91.3 237.3 137 236C182.7 234.7 228.3 229.3 274 226C319.7 222.7 365.3 221.3 411.2 216.2C457 211 503 202 548.8 199.8C594.7 197.7 640.3 202.3 686 209C731.7 215.7 777.3 224.3 823 226.5C868.7 228.7 914.3 224.3 937.2 222.2L960 220L960 301L937.2 301C914.3 301 868.7 301 823 301C777.3 301 731.7 301 686 301C640.3 301 594.7 301 548.8 301C503 301 457 301 411.2 301C365.3 301 319.7 301 274 301C228.3 301 182.7 301 137 301C91.3 301 45.7 301 22.8 301L0 301Z" />
+            </path>
+        </svg>
+
+        
+        <svg class="absolute top-0 right-0 left-0 z-0" viewBox="0 0 900 300" fill="red" xmlns="http://www.w3.org/2000/svg">
+
+            <path d="" class="fill-indigo-500">
+                <animate attributeName="d" dur="8s" repeatCount="indefinite"
+                values="M117.5 -9.53674e-05L147.5 -34.0001C147.5 -34.0001 140.5 -5.4001 200.5 -9.53674e-05C260.5 -5.2999 312 -82.5 372 -60C364.5 -26.5 471.5 52.0408 583 43.9999C687 36.4999 701 85.4999 768.5 98.4999C830 110.344 870 88.9999 900 70.9999V-8.7738e-05H870C840 -8.7738e-05 780 -8.7738e-05 720 -8.7738e-05C660 -8.7738e-05 600 -8.7738e-05 540 -8.7738e-05C480 -8.7738e-05 420 -8.7738e-05 360 -8.7738e-05C300 -8.7738e-05 260.5 -9.53674e-05 200.5 -9.53674e-05C140.5 -9.53674e-05 60 -8.7738e-05 30 -8.7738e-05H0L117.5 -9.53674e-05Z;
+                M117.5 -9.53674e-05L147.5 -34.0001C147.5 -34.0001 140.5 -5.4001 200.5 -9.53674e-05C260.5 -5.2999 312 -82.5 372 -60C364.5 -26.5 442.5 84.5 554 65C638.44 50.2324 659.38 70.0893 720 102.5C770.5 129.5 870 111 900 93V-8.7738e-05H870C840 -8.7738e-05 780 -8.7738e-05 720 -8.7738e-05C660 -8.7738e-05 600 -8.7738e-05 540 -8.7738e-05C480 -8.7738e-05 420 -8.7738e-05 360 -8.7738e-05C300 -8.7738e-05 260.5 -9.53674e-05 200.5 -9.53674e-05C140.5 -9.53674e-05 60 -8.7738e-05 30 -8.7738e-05H0L117.5 -9.53674e-05Z;
+                M117.5 -9.53674e-05L147.5 -34.0001C147.5 -34.0001 140.5 -5.4001 200.5 -9.53674e-05C260.5 -5.2999 312 -82.5 372 -60C364.5 -26.5 471.5 52.0408 583 43.9999C687 36.4999 701 85.4999 768.5 98.4999C830 110.344 870 88.9999 900 70.9999V-8.7738e-05H870C840 -8.7738e-05 780 -8.7738e-05 720 -8.7738e-05C660 -8.7738e-05 600 -8.7738e-05 540 -8.7738e-05C480 -8.7738e-05 420 -8.7738e-05 360 -8.7738e-05C300 -8.7738e-05 260.5 -9.53674e-05 200.5 -9.53674e-05C140.5 -9.53674e-05 60 -8.7738e-05 30 -8.7738e-05H0L117.5 -9.53674e-05Z"/>
+
+            </svg>
+            
+    </main>
+    <div class="min-h-screen bg-fixed bg-gradient-to-b from-indigo-500 to-indigo-300 relative">
+        <svg class="absolute top-0 right-0 left-0 z-0" viewBox="0 0 900 300" >
+           
+            <path d="" class="fill-indigo-300">
+                <animate attributeName="d" dur="8s" repeatCount="indefinite"
+                values="M0 109L21.5 108.2C43 107.3 86 105.7 128.8 109.5C171.7 113.3 214.3 122.7 257.2 113.7C300 104.7 343 77.3 385.8 74C428.7 70.7 471.3 91.3 514.2 97.7C557 104 600 96 642.8 92.3C685.7 88.7 728.3 89.3 771.2 83.5C814 77.7 857 65.3 878.5 59.2L900 53L900 0L878.5 0C857 0 814 0 771.2 0C728.3 0 685.7 0 642.8 0C600 0 557 0 514.2 0C471.3 0 428.7 0 385.8 0C343 0 300 0 257.2 0C214.3 0 171.7 0 128.8 0C86 0 43 0 21.5 0L0 0Z;
+                M0 49L21.5 55.3C43 61.7 86 74.3 128.8 74.2C171.7 74 214.3 61 257.2 58.3C300 55.7 343 63.3 385.8 64.7C428.7 66 471.3 61 514.2 58.2C557 55.3 600 54.7 642.8 57.5C685.7 60.3 728.3 66.7 771.2 71.8C814 77 857 81 878.5 83L900 85L900 0L878.5 0C857 0 814 0 771.2 0C728.3 0 685.7 0 642.8 0C600 0 557 0 514.2 0C471.3 0 428.7 0 385.8 0C343 0 300 0 257.2 0C214.3 0 171.7 0 128.8 0C86 0 43 0 21.5 0L0 0Z;
+                M0 109L21.5 108.2C43 107.3 86 105.7 128.8 109.5C171.7 113.3 214.3 122.7 257.2 113.7C300 104.7 343 77.3 385.8 74C428.7 70.7 471.3 91.3 514.2 97.7C557 104 600 96 642.8 92.3C685.7 88.7 728.3 89.3 771.2 83.5C814 77.7 857 65.3 878.5 59.2L900 53L900 0L878.5 0C857 0 814 0 771.2 0C728.3 0 685.7 0 642.8 0C600 0 557 0 514.2 0C471.3 0 428.7 0 385.8 0C343 0 300 0 257.2 0C214.3 0 171.7 0 128.8 0C86 0 43 0 21.5 0L0 0Z"/>
+            </path>
+            <path class="fill-indigo-200">
+                <animate attributeName="d" dur="8s" repeatCount="indefinite"
+                values="M0 38L21.5 37.8C43 37.7 86 37.3 128.8 34.7C171.7 32 214.3 27 257.2 34.5C300 42 343 62 385.8 63.3C428.7 64.7 471.3 47.3 514.2 43.5C557 39.7 600 49.3 642.8 62.5C685.7 75.7 728.3 92.3 771.2 100.5C814 108.7 857 108.3 878.5 108.2L900 108L900 0L878.5 0C857 0 814 0 771.2 0C728.3 0 685.7 0 642.8 0C600 0 557 0 514.2 0C471.3 0 428.7 0 385.8 0C343 0 300 0 257.2 0C214.3 0 171.7 0 128.8 0C86 0 43 0 21.5 0L0 0Z;
+                M0 29L21.5 32C43 35 86 41 128.8 44.2C171.7 47.3 214.3 47.7 257.2 45C300 42.3 343 36.7 385.8 40C428.7 43.3 471.3 55.7 514.2 62.7C557 69.7 600 71.3 642.8 67.7C685.7 64 728.3 55 771.2 53.3C814 51.7 857 57.3 878.5 60.2L900 63L900 0L878.5 0C857 0 814 0 771.2 0C728.3 0 685.7 0 642.8 0C600 0 557 0 514.2 0C471.3 0 428.7 0 385.8 0C343 0 300 0 257.2 0C214.3 0 171.7 0 128.8 0C86 0 43 0 21.5 0L0 0Z;
+                M0 38L21.5 37.8C43 37.7 86 37.3 128.8 34.7C171.7 32 214.3 27 257.2 34.5C300 42 343 62 385.8 63.3C428.7 64.7 471.3 47.3 514.2 43.5C557 39.7 600 49.3 642.8 62.5C685.7 75.7 728.3 92.3 771.2 100.5C814 108.7 857 108.3 878.5 108.2L900 108L900 0L878.5 0C857 0 814 0 771.2 0C728.3 0 685.7 0 642.8 0C600 0 557 0 514.2 0C471.3 0 428.7 0 385.8 0C343 0 300 0 257.2 0C214.3 0 171.7 0 128.8 0C86 0 43 0 21.5 0L0 0Z"/>
+            </path>
+            <path class="fill-indigo-50">
+                <animate attributeName="d" dur="8s" repeatCount="indefinite"
+                values="M0 21L21.5 18.7C43 16.3 86 11.7 128.8 8.8C171.7 6 214.3 5 257.2 14.2C300 23.3 343 42.7 385.8 47.3C428.7 52 471.3 42 514.2 35.3C557 28.7 600 25.3 642.8 26.8C685.7 28.3 728.3 34.7 771.2 37.8C814 41 857 41 878.5 41L900 41L900 0L878.5 0C857 0 814 0 771.2 0C728.3 0 685.7 0 642.8 0C600 0 557 0 514.2 0C471.3 0 428.7 0 385.8 0C343 0 300 0 257.2 0C214.3 0 171.7 0 128.8 0C86 0 43 0 21.5 0L0 0Z;
+                M0 52L21.5 47C43 42 86 32 128.8 31.5C171.7 31 214.3 40 257.2 39.2C300 38.3 343 27.7 385.8 26.2C428.7 24.7 471.3 32.3 514.2 32.5C557 32.7 600 25.3 642.8 24.7C685.7 24 728.3 30 771.2 31.2C814 32.3 857 28.7 878.5 26.8L900 25L900 0L878.5 0C857 0 814 0 771.2 0C728.3 0 685.7 0 642.8 0C600 0 557 0 514.2 0C471.3 0 428.7 0 385.8 0C343 0 300 0 257.2 0C214.3 0 171.7 0 128.8 0C86 0 43 0 21.5 0L0 0Z;
+                M0 21L21.5 18.7C43 16.3 86 11.7 128.8 8.8C171.7 6 214.3 5 257.2 14.2C300 23.3 343 42.7 385.8 47.3C428.7 52 471.3 42 514.2 35.3C557 28.7 600 25.3 642.8 26.8C685.7 28.3 728.3 34.7 771.2 37.8C814 41 857 41 878.5 41L900 41L900 0L878.5 0C857 0 814 0 771.2 0C728.3 0 685.7 0 642.8 0C600 0 557 0 514.2 0C471.3 0 428.7 0 385.8 0C343 0 300 0 257.2 0C214.3 0 171.7 0 128.8 0C86 0 43 0 21.5 0L0 0Z;"/>
+            </path>
+        </svg>
+        <svg class="absolute bottom-0 right-0 left-0 z-0 "
+         viewBox="0 0 900 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="fill-indigo-50" d="M900 284L0 224V300H900V284Z"/>
+
+        </svg>
+                
+        <div class="xl:grid grid-cols-3 flex flex-col gap-6 p-6 justify-end h-full mt-40">
+            <div id="about" class="scroll-mt-40 card bg-indigo-50 border border-indigo-500 border-opacity-70 flex-grow h-min text-indigo-400 w-full text-base xl:text-lg  fade-top reveal">
+                <h2 class="text-2xl xl:text-3xl font-bold text-indigo-50-shadow border-indigo-300 pb-2 border-b ">About</h2>
+                <div class="mt-4 mb-2 p-2 font-semibold ">
+                    <div >
+                        This tool was created with much love by the community for the community, 
+                        utilizing <a href="https://github.com/Henrik-3/unofficial-valorant-api" target="_blank" rel="noopener">Henrik's Valorant API</a>.
+                    </div>
+                    
+                    <div class="text-right mt-4">
+                        We hope you appreciate it!
+                    </div>
+                    
+                </div>
+            </div>
+            <div id="help" class="scroll-mt-40 card bg-slate-50 border border-slate-500 border-opacity-70 flex-grow h-min text-slate-500 w-full text-base xl:text-lg xl:mt-[25%] fadein reveal" style="--animationtime: 2s;">
+                <h2 class="text-2xl xl:text-3xl font-bold text-indigo-50-shadow border-slate-500 pb-2 border-b text-center">Help</h2>
+                <div class="mt-4 mb-2 p-2 font-semibold ">
+                    <div >
+                        If you have any suggestion or problems, please contact here:
+                    </div>
+                    
+                    <div class="text-right mt-4">
+                        <a class=" text-slate-500 hover:text-indigo-700" href="https://twitter.com/_davizera" target="_blank" rel="noopener">@davizera</a>
+                    </div>
+                </div>
+            </div>
+            <div id="donation" class="scroll-mt-40 card bg-amber-50 border border-amber-500 border-opacity-70 flex-grow h-min text-amber-500 w-full text-base xl:text-lg xl:mt-[50%] fade-bottom reveal">
+                <h2 class="text-2xl xl:text-3xl font-bold text-indigo-50-shadow pb-2 border-b border-amber-500 text-right">Donation</h2>
+                <div class="mt-4 mb-2 p-2 font-semibold ">
+                    <div >
+                        Support us!<br/>
+                        Any amount is appreciated and most of it will proceed to help Henrik maintain the API up.
+                    </div>
+                    
+                    <div class="text-right mt-4">
+                        <form action="https://www.paypal.com/donate" method="post" target="_top">
+                            <input type="hidden" name="business" value="C879VV4YTPXQC">
+                            <input type="hidden" name="no_recurring" value="0">
+                            <input type="hidden" name="currency_code" value="BRL">
+                            <button type="submit" class="rounded-xl bg-amber-400 hover:bg-amber-300 text-indigo-800 py-2 px-4 transition-all">Paypal ❤</button>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-fixed bg-indigo-50 min-h-[30vh] 2xl:min-h-[25vh] text-slate-400 xl:text-lg grid">
+        <div class="md:grid grid-cols-3 flex flex-col gap-0 md:gap-6 px-4 pb-4 xl:px-8 justify-end h-full ">
+            <div class="h-full flex flex-col items-center">
+                <div class="px-4 pt-6 pb-8 flex flex-col gap-4 text-center">
+                    <span class="font-bold text-indigo-500 fadein reveal" style="--animationtime: 2s;">Special thanks</span>    
+                    <span class="fade-left reveal">
+                        This tool was made possible by <a class="font-semibold text-slate-400" href="https://github.com/Henrik-3/unofficial-valorant-api" target="_blank" rel="noopener">Henrik's API</a>.<br/> Please support them if you can! <br/> （＾－＾）
+                    </span>
+                </div>
+             
+            </div>
+            <div class="h-full flex flex-col items-center">
+                <div class="px-4 pt-6 pb-8 flex flex-col mt-auto text-center gap-4">
+                    <span class="font-bold text-indigo-500 fadein reveal" style="--animationtime: 2s;">Also</span>    
+                    <span class="fade-bottom reveal">
+                        <a class="font-semibold text-slate-400" href="https://www.twitch.tv/touka3210" target="_blank" rel="noopener">よわむしとうか</a> 💜<br/>for making the amazing icon 
+                    </span>
+                </div>
+                    
+                
+            </div>
+            <div class="h-full flex flex-col items-center">
+                <div class="px-4 pt-6 pb-8 flex flex-col gap-4 text-center">
+                    <span class="font-bold text-indigo-500 fadein reveal" style="--animationtime: 2s;">What you are waiting for?</span>    
+                    <span class="fade-right reveal">
+                        Share your Valorant rank with your viewers<br/>using our <a class="font-semibold text-slate-400" href="#mainSection">overlay tool!</a> ヾ(￣▽￣)
+                    </span>
+                </div>
+                    
+                <div class="mt-auto w-full fade-right reveal text-right text-sm md:text-base pt-8 md:py-0">
+                    site developed by <a class="font-semibold hover:text-indigo-500" href="https://twitch.tv/hitoriyama_san" target="_blank" rel="noopener">@hitoriyama</a>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+ <!--section>
+    <div id="dv1">
+        <img src="https://davizeragod.github.io/recortado.png" alt="eu" id="imagemfoda">
         Create a nice overlay to display your valorant rank!
         <div id="geral">
 
@@ -44,7 +317,7 @@
 
             <input type="text" id="apikey" class="Nome3" name="apikey" placeholder="HDEV-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"> 
             <i id="question" class="fa fa-question-circle" aria-hidden="true"></i>
-            <span class="tooltip-text">If you need help getting your API Key, click <a href="key.html" target="_blank" rel="noopener">HERE</a> <br><br>APIキーの生成方法がわからない場合は、<a href="key.html" target="_blank" rel="noopener">こちら</a>をクリックしてください。</span>
+            <span class="tooltip-text">If you need help getting your API Key, click <a href="https://davizeragod.github.io/key.html" target="_blank" rel="noopener">HERE</a> <br><br>APIキーの生成方法がわからない場合は、<a href="https://davizeragod.github.io/key.html" target="_blank" rel="noopener">こちら</a>をクリックしてください。</span>
         </div>
 
         <label for="regiao">Select your region:</label>
@@ -72,27 +345,27 @@
                 <div id="cores">
                     <div id="cor1">
                         <label for="color">Background Color</label><br>
-                        <input type="color" id="fundo" class="colorpicker" value="#282b30" /><br>
+                        <input type="color" id="fundo" class="colorpicker" value="#282b30"><br>
                         <label for="txt">Text color</label><br>
-                        <input type="color" id="txt" class="colorpicker" value="#ffffff" />
+                        <input type="color" id="txt" class="colorpicker" value="#ffffff">
                     </div>
                     <div id="transp">
                         <label for="transparent">Transparent BG?</label><br>
-                        <input type="checkbox" id="transparentcheck" class="cbox" />
+                        <input type="checkbox" id="transparentcheck" class="cbox">
                     </div>
 
                 </div>
                 <div id="imagens">
                     <div id="imgbg">
                         <label for="fundoimg" id="lblfundoimg">Use a custom Background</label>
-                        <input type="checkbox" id="fundoimg" class="cbox" />
+                        <input type="checkbox" id="fundoimg" class="cbox">
                         <label for="urlbg" class="texto">Please input the image URL</label>
-                        <input type="text" id="urlbg" class="iurls" disabled>
+                        <input type="text" id="urlbg" class="iurls" disabled="">
                     </div>
 
                     <div id="imgicon">
                         <label for="iconlado">Use a custom icon</label><br>
-                        <input type="checkbox" id="iconlado" class="cbox" />
+                        <input type="checkbox" id="iconlado" class="cbox">
                         <label for="urlicon" class="texto">Please input the image URL</label>
                         <input type="text" id="urlicon" class="iurls" disabled="false">
                     </div>
@@ -104,39 +377,38 @@
 
 
     </div>
-    </div>
+    
 </section>
+
 <div id="geral2">
     <label for="link">Just paste this link as a "Browser" in your OBS sources</label><br>
-    <textarea name="link" id="textbox" cols="30" rows="6" placeholder=" Your link goes here" readonly></textarea>
+    <textarea name="link" id="textbox" cols="30" rows="6" placeholder=" Your link goes here" readonly=""></textarea>
 </div>
 <div id="divframe">
     <label for="framefoda" id="lblframe"></label>
-    <iframe id="framefoda" scrolling="no"></iframe>
+    <iframe id="framefoda" scrolling="no" src="./Rank_files/saved_resource.html"></iframe>
 </div>
 <div id="banner">
     <label for="banner" id="lblbanner">国内最大Valorant-JP Discord コミュニティ！</label>
-    <a href="https://discord.gg/x57aQ9dTse"><img src = "banner.png" id="bannerpic" alt="bannerdiscord"></a>
+    <a href="https://discord.gg/x57aQ9dTse"><img src="./Rank_files/banner.png" id="bannerpic" alt="bannerdiscord"></a>
 </div>
 <br>
 <section>
     <footer id="rodape">
-        Made with love by davizera, please consider following me on <a href="https://twitter.com/_davizera"
-            target="_blank" rel="noopener">Twitter</a><br>
+        Made with love by davizera, please consider following me on <a href="https://twitter.com/_davizera" target="_blank" rel="noopener">Twitter</a><br>
         Icon by the cute <a href="https://www.twitch.tv/touka3210" target="_blank" rel="noopener">よわむしとうか</a>❤️<br>
-        This tool was made possible by <a href="https://github.com/Henrik-3/unofficial-valorant-api"target="_blank" rel="noopener">Henrik's API</a>. Please support them if you can!<br>
+        This tool was made possible by <a href="https://github.com/Henrik-3/unofficial-valorant-api" target="_blank" rel="noopener">Henrik's API</a>. Please support them if you can!<br>
         If you want, you can donate me! <br>Any amount is appreciated and most of it will proceed to help Henrik maintain his API up. 
         <form action="https://www.paypal.com/donate" method="post" target="_top">
-            <input type="hidden" name="business" value="C879VV4YTPXQC" />
-            <input type="hidden" name="no_recurring" value="0" />
-            <input type="hidden" name="currency_code" value="BRL" />
-            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-            <img alt="" border="0" src="https://www.paypal.com/en_BR/i/scr/pixel.gif" width="1" height="1" />
+            <input type="hidden" name="business" value="C879VV4YTPXQC">
+            <input type="hidden" name="no_recurring" value="0">
+            <input type="hidden" name="currency_code" value="BRL">
+            <input type="image" src="./Rank_files/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button">
+            <img alt="" border="0" src="./Rank_files/pixel.gif" width="1" height="1">
             </form>
             
     </footer>
-</section>
-</body>
-<script src="js/main.js"></script>
+</section-->
+<script src="./js/main.js"></script>
 
-</html>
+</body></html>

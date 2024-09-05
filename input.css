@@ -1,0 +1,313 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    @apply scroll-smooth;
+}
+
+.touka {
+    @apply text-indigo-50
+}
+
+a {
+    @apply underline text-indigo-400 font-bold hover:text-purple-300 cursor-pointer;
+    transition: color 1000ms;
+}
+
+p,
+label,
+button,
+li {
+    @apply text-indigo-50;
+}
+
+input,
+select {
+    @apply p-2 border-opacity-50 focus:border-opacity-100 border-b border-indigo-50 transition-all outline-none bg-transparent placeholder-indigo-50 placeholder-opacity-50;
+}
+
+option {
+    @apply text-black;
+}
+
+.grad {
+    background: linear-gradient(115deg, theme('colors.slate.900' / 0.6) 20%, theme('colors.indigo.400' / 0.6)) 30%;
+}
+
+.grad-2 {
+    
+    background: linear-gradient(115deg, theme('colors.slate.900' / 1) 50%, theme('colors.indigo.300' / 1));
+    background-attachment: fixed;
+    
+}
+
+
+@property --col {
+    syntax: '<color>';
+    initial-value: theme('colors.indigo.600' / 1);
+    inherits: false;
+}
+
+.grad-3 {
+    background: linear-gradient(115deg, theme('colors.indigo.600' / 1) 30%, var(--col)) !important;
+    transition: --col 300ms;
+}
+
+.grad-3:hover {
+    --col: theme('colors.indigo.500' / 1);
+}
+
+@property --col2 {
+    syntax: '<color>';
+    initial-value: theme('colors.slate.600' / 1);
+    inherits: false;
+}
+
+.grad-4 {
+    --grad4: theme('colors.slate.600' / 1);
+    background: linear-gradient(115deg, var(--grad4) 30%, var(--col2)) !important;
+    transition: --col2 300ms;
+}
+
+.grad-4:hover {
+    --col2: theme('colors.slate.500' / 1);
+}
+
+.grad-5 {
+    background: linear-gradient(115deg, theme('colors.indigo.50' / 0.5) 30%, theme('colors.indigo.300' / 0.5)) !important;
+}
+
+
+
+
+
+p.text-indigo-50-shadow,
+label.text-indigo-50-shadow,
+button.text-indigo-50-shadow {
+    text-shadow: rgba(250, 250, 250, 0.5) 0 0 8px;
+}
+
+.card-border {
+    @apply border border-indigo-50 border-opacity-20;
+}
+
+.card {
+    @apply relative flex-col  px-8 py-4 rounded-2xl shadow-xl;
+}
+
+input[type="color"] {
+    @apply border border-indigo-50 border-opacity-20 focus:border-opacity-100 w-full p-0 rounded-md cursor-pointer;
+}
+
+input[type="checkbox"] {
+    @apply h-5 w-5 border border-indigo-50 rounded-sm cursor-pointer m-1;
+}
+
+.header a {
+    @apply text-indigo-50 hover:text-indigo-500 decoration-transparent text-xl font-semibold 2xl:text-2xl;
+    text-shadow: theme('colors.indigo.900' / 0.3) 0 0 8px;
+}
+
+.header ul {
+    @apply flex flex-col md:flex-row items-end gap-6 md:gap-10
+}
+
+.header ul a:hover {
+    @apply transition-all text-indigo-200
+}
+
+
+.card:before {
+    content: '';
+
+    @apply absolute top-0 bottom-0 left-0 right-0 backdrop-blur-sm rounded-2xl;
+    /* background: red; */
+    z-index: -1;
+
+}
+
+.absolute {
+    position: absolute;
+}
+
+.float-effect {
+    animation: float 3s ease-in-out infinite !important;
+}
+
+
+.reveal {
+    opacity: 0;
+    --animationtime: 1s;
+    transition: var(--animationtime) all ease;
+}
+
+.reveal-r {
+    opacity: 0;
+    --animationtime: 500ms;
+    transition: var(--animationtime) all ease;
+}
+
+.reveal.active, .reveal-r.active {
+    opacity: 1;
+}
+
+
+.active.fade-top {
+    animation: fade-top var(--animationtime) ease-in-out;
+}
+
+.active.fade-bottom {
+    animation: fade-bottom var(--animationtime) ease-in-out;
+}
+
+.active.fade-left {
+    animation: fade-left var(--animationtime) ease-in-out;
+}
+
+.active.fade-right {
+    animation: fade-right var(--animationtime) ease-in-out;
+}
+
+
+.env-fadeout {
+    animation: fadeout var(--animationtime) linear;
+    animation-iteration-count: 1;
+}
+
+.env-fadein {
+    animation: fadein var(--animationtime) ease;
+    animation-iteration-count: 1;
+}
+
+.active.fadein {
+    animation: fadein var(--animationtime) ease;
+    animation-iteration-count: 1;
+}
+
+.spinner-item {
+    pointer-events: none;
+    display: inline-block;
+    aspect-ratio: 1 / 1;
+
+    background-color: currentColor;
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='%23000' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_V8m1%7Btransform-origin:center;animation:spinner_zKoa 2s linear infinite%7D.spinner_V8m1 circle%7Bstroke-linecap:round;animation:spinner_YpZS 1.5s ease-out infinite%7D%40keyframes spinner_zKoa%7B100%25%7Btransform:rotate(360deg)%7D%7D%40keyframes spinner_YpZS%7B0%25%7Bstroke-dasharray:0 150;stroke-dashoffset:0%7D47.5%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-16%7D95%25%2C100%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-59%7D%7D%3C%2Fstyle%3E%3Cg class='spinner_V8m1'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3'%3E%3C%2Fcircle%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+#frame-area .spinner, #frame-area.loading iframe {
+    @apply hidden;
+}
+
+#frame-area.loading .spinner {
+    @apply block !important;
+}
+
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-top {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-bottom {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-left {
+    0% {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-right {
+    0% {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track { 
+background: theme('colors.slate.900' / 1) ; 
+
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+
+background: theme('colors.slate.700'); 
+border-radius: 10px;
+}
+
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: theme('colors.slate.600'); 
+}
