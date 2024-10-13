@@ -213,7 +213,7 @@ if (semwc === false){
           nmusuario +
           "/" +
           idusuario + 
-         "?filter=competitive&size=1");
+         "?mode=competitive&size=1");
         jsonDataWL = JSON.parse(dadoswl);
     }
     

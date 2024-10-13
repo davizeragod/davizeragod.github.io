@@ -201,7 +201,7 @@ if (semwc === false){
           nmusuario +
           "/" +
           idusuario + 
-         "?filter=competitive");
+         "?mode=competitive");
         jsonDataWL = JSON.parse(dadoswl);
     }
     
@@ -355,7 +355,7 @@ function getLastMatch() {
       nmusuario +
       "/" +
       idusuario +
-      "?filter=competitive"
+      "?mode=competitive"
   );
   jsonUltimaPartida = JSON.parse(ultimaPartida);
   let IDultimaPartida = jsonUltimaPartida.data[0].metadata.matchid;
