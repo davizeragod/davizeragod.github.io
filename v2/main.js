@@ -38,6 +38,7 @@ let lose = 0;
 let empatou = {};
 let semwc = url.searchParams.has("swl")
 let apikey = ''
+var matchIds = []
 
 if (url.searchParams.has("apikey")){
   apikey = url.searchParams.get("apikey")
@@ -220,6 +221,7 @@ if (semwc === false){
     function getprimeirapartida(){
       get();
       partida1 = jsonDataWL.data[0].metadata.matchid;
+      matchIds.push(partida1);
     return partida1;
     }
     
@@ -246,6 +248,8 @@ if (semwc === false){
     
     function winlose(){
         get();
+        if (!matchIds.includes(jsonDataWL.data[0].metadata.matchid)){
+        matchIds.push(jsonDataWL.data[0].metadata.matchid);
         venceu();
         partida2 = jsonDataWL.data[0].metadata.matchid;
         if (partida2 != partida1){
@@ -260,6 +264,7 @@ if (semwc === false){
                     lose = totallose;
                     partida1 = jsonDataWL.data[0].metadata.matchid;
                 }
+        }
         }
         AtualizaVisual()
     }

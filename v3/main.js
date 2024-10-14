@@ -54,6 +54,7 @@ let calcBS = 0;
 let jsonUltimaPartida = {};
 let novoObj = {};
 let NovoobjID = {};
+var matchIds = []
 
 function fazGet(url) {
   let request = new XMLHttpRequest();
@@ -208,6 +209,7 @@ if (semwc === false){
     function getprimeirapartida(){
       get();
       partida1 = jsonDataWL.data[0].metadata.matchid;
+      matchIds.push(partida1);
     return partida1;
     }
     
@@ -233,23 +235,26 @@ if (semwc === false){
     }
     
     function winlose(){
-        get();
-        venceu();
-        partida2 = jsonDataWL.data[0].metadata.matchid;
-        if (partida2 != partida1){
-                if(timevenceu === true){
-                    var totalwin = win + 1;
-                    win = totalwin;
-                    partida1 = jsonDataWL.data[0].metadata.matchid;
-                    AtualizaVisual();
-                }
-                else if(timevenceu===false && empatou === 'N'){
-                    var totallose = lose + 1;
-                    lose = totallose;
-                    partida1 = jsonDataWL.data[0].metadata.matchid;
-                }
-        }
-        AtualizaVisual()
+      get();
+      if (!matchIds.includes(jsonDataWL.data[0].metadata.matchid)){
+      matchIds.push(jsonDataWL.data[0].metadata.matchid);
+      venceu();
+      partida2 = jsonDataWL.data[0].metadata.matchid;
+      if (partida2 != partida1){
+              if(timevenceu === true){
+                  var totalwin = win + 1;
+                  win = totalwin;
+                  partida1 = jsonDataWL.data[0].metadata.matchid;
+                  AtualizaVisual();
+              }
+              else if(timevenceu===false && empatou === 'N'){
+                  var totallose = lose + 1;
+                  lose = totallose;
+                  partida1 = jsonDataWL.data[0].metadata.matchid;
+              }
+      }
+      }
+      AtualizaVisual()
     }
     
     
