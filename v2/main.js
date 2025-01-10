@@ -89,7 +89,7 @@ function main() {
       idusuario
   );
   var jsonData = JSON.parse(dados);
-  let currentAct = Object.keys(jsonData.data.by_season).slice(-1)[0];
+  let currentAct = 'e10a1';
   isunrankedatoatual = jsonData.data.by_season[currentAct].number_of_games;
   nodataseasonatual = jsonData.data.by_season[currentAct].error;
   retornostatus = jsonData.status;
