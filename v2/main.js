@@ -90,8 +90,21 @@ function main() {
   );
   var jsonData = JSON.parse(dados);
   let currentAct = 'e11a4';
+  try {
   isunrankedatoatual = jsonData.data.by_season[currentAct].number_of_games;
   nodataseasonatual = jsonData.data.by_season[currentAct].error;
+  } catch (e) {
+    currentAct = 'e11aIV';
+    try {
+      isunrankedatoatual = jsonData.data.by_season[currentAct].number_of_games;
+      nodataseasonatual = jsonData.data.by_season[currentAct].error;
+    } catch (e2) {
+      // Trate o erro caso nenhuma das duas opções funcione
+      console.error('Nenhum dos acts encontrados:', e2);
+      isunrankedatoatual = null;
+      nodataseasonatual = true;
+    }
+  }
   retornostatus = jsonData.status;
   checkifnull = jsonData.data.current_data.currenttier;
   dadosimportantesElo = jsonData.data.current_data.currenttierpatched;
