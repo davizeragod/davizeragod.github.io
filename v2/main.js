@@ -89,12 +89,12 @@ function main() {
       idusuario
   );
   var jsonData = JSON.parse(dados);
-  let currentAct = 'e10a5';
+  let currentAct = 'e11a1';
   try {
   isunrankedatoatual = jsonData.data.by_season[currentAct].number_of_games;
   nodataseasonatual = jsonData.data.by_season[currentAct].error;
   } catch (e) {
-    currentAct = 'e10aV';
+    currentAct = 'e11aI';
     try {
       isunrankedatoatual = jsonData.data.by_season[currentAct].number_of_games;
       nodataseasonatual = jsonData.data.by_season[currentAct].error;
@@ -120,7 +120,7 @@ function main() {
 }
 
 function foda() {
-  if (isunrankedatoatual < "1" || nodataseasonatual == "No data available" && jogosnecessarios == "5") {
+  if (isunrankedatoatual < "5" || nodataseasonatual == "No data available" && jogosnecessarios == "5") {
     dadosimportantesElo = "Unranked";
     dadosimportantesmmr = "100";
     dadosimportantesultimojogo = "nRanked";
