@@ -89,12 +89,12 @@ function main() {
       idusuario
   );
   var jsonData = JSON.parse(dados);
-  let currentAct = 'e11a1';
+  let currentAct = 'e11a3';
   try {
   isunrankedatoatual = jsonData.data.by_season[currentAct].number_of_games;
   nodataseasonatual = jsonData.data.by_season[currentAct].error;
   } catch (e) {
-    currentAct = 'e11aI';
+    currentAct = 'e11aIII';
     try {
       isunrankedatoatual = jsonData.data.by_season[currentAct].number_of_games;
       nodataseasonatual = jsonData.data.by_season[currentAct].error;
