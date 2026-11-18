@@ -1,419 +1,418 @@
-var url_string = window.location.href;
-var url = new URL(url_string);
-var sParams = url.searchParams;
-var regiao = url.searchParams.get("regiao");
-var idusuario = url.searchParams.get("idusuario");
-var nmusuario = url.searchParams.get("nmusuario");
-var cor = url.searchParams.get("color");
-var corfonte = url.searchParams.get("fontcolor");
-var alpha = url.searchParams.get("alpha");
-var bgurl = url.searchParams.get("bu");
-var icourl = url.searchParams.get("iu");
-var retornostatus = {};
-var dadosimportantesElo = {};
-var dadosimportantesmmr = {};
-var dadosimportantesultimojogo = {};
-var dadosimportantesnickconta = {};
-var leaderboardajustado = {};
-var checkifnull = {};
-var dadosimportantesTier = {};
-var dadosisunranked = {};
-var dadosleaderboard = {};
-var cssbarradepts = document.querySelector(":root").style;
-const bgpts = document.getElementById("ultmmr");
-const corbg = document.getElementById("textonmrank");
-var rankatuallog = {};
-var rankatualizado = {};
-var isunrankedatoatual = {};
-var jogosnecessarios = {};
-let puuid = {};
-let partida1 = {};
-let partida2 = {};
-let jsonDataWL = {};
-let reqpuuid = {};
-let dadoswl = {};
-let time = {};
-let win = 0;
-let lose = 0;
-let empatou = {};
-let semwc = url.searchParams.has("swl")
-let content = {};
-let parsedContent = {};
-let matches = {};
-let arrayMatches = [];
-let novaArray = [];
-let hsrateField = 0;
-let bsrateField = 0;
-let lsrateField = 0;
-let kills = 0;
-let deaths = 0;
-let calcKD = 0;
-let calcHS = 0;
-let calcLS = 0;
-let calcBS = 0;
-let jsonUltimaPartida = {};
-let novoObj = {};
-let NovoobjID = {};
-var matchIds = []
+const urlParams = new URLSearchParams(window.location.search);
 
-function fazGet(url) {
-  let request = new XMLHttpRequest();
-  request.open("GET", url, false);
-  request.send();
-  return request.responseText;
-}
-
-function leaderboard() {
-  const reglow = regiao.toLowerCase();
-  let lb = fazGet(
-    "https://api.henrikdev.xyz/valorant/v1/leaderboard/" +
-      reglow +
-      "?name=" +
-      nmusuario +
-      "&tag=" +
-      idusuario
-  );
-  var jsonDataLB = JSON.parse(lb);
-  dadosleaderboard = jsonDataLB.data[0].leaderboardRank;
-}
-
-function main() {
-  let dados = fazGet(
-    "https://api.henrikdev.xyz/valorant/v2/mmr/" +
-      regiao +
-      "/" +
-      nmusuario +
-      "/" +
-      idusuario
-  );
-  var jsonData = JSON.parse(dados);
-  isunrankedatoatual = jsonData.data.by_season.e11a1.number_of_games;
-  nodataseasonatual = jsonData.data.by_season.e11a1.error;
-  retornostatus = jsonData.status;
-  checkifnull = jsonData.data.current_data.currenttier;
-  dadosimportantesElo = jsonData.data.current_data.currenttierpatched;
-  dadosimportantesmmr = jsonData.data.current_data.ranking_in_tier;
-  dadosimportantesmmrtxt = jsonData.data.current_data.ranking_in_tier;
-  dadosimportantesTier = jsonData.data.current_data.currenttier;
-  retornostatus = jsonData.status;
-  dadosimportantesultimojogo =
-    jsonData.data.current_data.mmr_change_to_last_game;
-  dadosimportantesnickconta = jsonData.data.name;
-  jateverank = jsonData.data.current_data.old;
-  jogosnecessarios = jsonData.data.current_data.games_needed_for_rating;
-}
-
-function foda() {
-  if (isunrankedatoatual < "5" || nodataseasonatual == "No data Available" && jogosnecessarios == "5") {
-    dadosimportantesElo = "Unranked";
-    dadosimportantesmmr = "100";
-    dadosimportantesultimojogo = "nRanked";
-    dadosimportantesTier = "Unranked"
-    dadosimportantesmmrtxt 
-    if (nodataseasonatual = "No data Available") {
-      isunrankedatoatual = 0;
-    }
-  }
-  if (dadosimportantesmmr > "100") {
-    dadosimportantesmmr = "0";
-  }
-  document.getElementById("imgRank").src = "./Resources/" + dadosimportantesTier + ".png"
-  var atualporc = dadosimportantesmmr + "%";
-  document.getElementById("headerburrao").innerHTML = dadosimportantesElo + '&nbsp &nbsp;' +dadosimportantesmmrtxt + "RR";
-  if (dadosimportantesultimojogo === "nRanked"){
-    document.getElementById("headerburrao").innerHTML =
-      dadosimportantesElo;
-  }
-  if (dadosimportantesTier === 27) {
-    leaderboard();
-    document.getElementById("headerburrao").innerHTML =
-      dadosimportantesElo + " #" + dadosleaderboard;
-  }
-  document.getElementById("mmratual").innerHTML = dadosimportantesmmr;
-  cssbarradepts.setProperty("--progresspontinho", atualporc);
-
-  const ultpart = document.getElementById("ultimapartida");
-  if (dadosimportantesultimojogo === "nRanked" && jateverank === false) {
-    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/1";
-  } else if (dadosimportantesultimojogo === "nRanked" && jateverank === true) {
-    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/1";}
-  else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo === 0) {
-    ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
-    bgpts.style.backgroundcolor = "grey";
-  } else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo >= 1) {
-    ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
-    atualporc = "100%";
-    cssbarradepts.setProperty("--progresspontinho", atualporc);
-  } else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo <= -1) {
-    ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
-    atualporc = "0%";
-    cssbarradepts.setProperty("--progresspontinho", atualporc);
-  } else if (dadosimportantesultimojogo === 0) {
-    ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
-  } else if (dadosimportantesultimojogo >= 1) {
-    ultpart.innerHTML = "Last Match: + " + dadosimportantesultimojogo + "pts";
-  } else if (dadosimportantesultimojogo <= -1) {
-    ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
-  }
-  document.getElementById("headerburrao").style.color = "#" + corfonte;
-  document.getElementById("WLvalue").style.color = "#" + corfonte;
-  document.getElementById('kd').style.color = "#" + corfonte;
-  document.getElementById('hsr').style.color = "#" + corfonte;
-
-}
-
-if (sParams.get("alpha") === "ss") {
-  corbg.style.backgroundColor = "transparent";
-} else if (sParams.get("alpha") === "nn") {
-  corbg.style.backgroundColor = "#" + cor;
-}
-corbg.style.backgroundImage = "url(" + bgurl + ")";
-if (icourl.length == 0) {
-  document.getElementById("imgcantinho").style.display = "none";
-} else {
-  document.getElementById("imgcantinho").style.content = "url(" + icourl + ")";
-}
-
-main();
-foda();
-rankatuallog = dadosimportantesTier;
-function checadados(){
-  if (retornostatus == "200" && checkifnull != null){
-    foda()
-    }
-}
-setInterval(main, 15000);
-setInterval(checadados, 15000);
-
-if (semwc === false){
-  function setapuuid(){
-    reqpuuid = fazGet("https://api.henrikdev.xyz/valorant/v1/account/"+
-      nmusuario +
-      "/" +
-      idusuario);
-      let parsepuuid = JSON.parse(reqpuuid)
-      puuid = parsepuuid.data.puuid;
-    }
-    
-    function get(){
-        dadoswl = fazGet("https://api.henrikdev.xyz/valorant/v3/matches/"
-          + regiao +
-          "/" +
-          nmusuario +
-          "/" +
-          idusuario + 
-         "?mode=competitive");
-        jsonDataWL = JSON.parse(dadoswl);
-    }
-    
-    function getprimeirapartida(){
-      get();
-      partida1 = jsonDataWL.data[0].metadata.matchid;
-      matchIds.push(partida1);
-    return partida1;
-    }
-    
-    function achatime(){
-        let timedojogador = jsonDataWL.data[0].players.all_players.find(jogador => jogador.puuid === puuid);
-        time = timedojogador.team;
-        return time.toLowerCase()
-    }
-    
-    function venceu(){
-        if(jsonDataWL.data[0].teams.red.has_won == false && jsonDataWL.data[0].teams.blue.has_won == false){
-            empatou = 'S'
-        }
-        else{
-            empatou = 'N'
-        }
-        timevenceu = jsonDataWL.data[0].teams[achatime()].has_won;
-        return timevenceu;
-    }
-    
-    function AtualizaVisual(){
-        document.getElementById("WLvalue").innerHTML = win + " Win / " + lose + " Lose";
-    }
-    
-    function winlose(){
-      get();
-      if (!matchIds.includes(jsonDataWL.data[0].metadata.matchid)){
-      matchIds.push(jsonDataWL.data[0].metadata.matchid);
-      venceu();
-      partida2 = jsonDataWL.data[0].metadata.matchid;
-      if (partida2 != partida1){
-              if(timevenceu === true){
-                  var totalwin = win + 1;
-                  win = totalwin;
-                  partida1 = jsonDataWL.data[0].metadata.matchid;
-                  AtualizaVisual();
-              }
-              else if(timevenceu===false && empatou === 'N'){
-                  var totallose = lose + 1;
-                  lose = totallose;
-                  partida1 = jsonDataWL.data[0].metadata.matchid;
-              }
-      }
-      }
-      AtualizaVisual()
-    }
-    
-    
-    setapuuid()
-    getprimeirapartida()
-    setInterval(winlose, 30000);
-    AtualizaVisual();
-}
-else if (semwc === true){
-  document.getElementById("headerburrao").style.top = "-5px";
-  document.getElementById("WLvalue").style.display = none;
-
-}
-
-let corpoRequest = {
-  type: "matchhistory",
-  value: puuid,
-  region: regiao,
-  queries: "?startIndex=0&endIndex=20&queue=competitive",
+const config = {
+  regiao: urlParams.get("regiao") || "",
+  idusuario: urlParams.get("idusuario") || "",
+  nmusuario: urlParams.get("nmusuario") || "",
+  cor: urlParams.get("color") || "",
+  corfonte: urlParams.get("fontcolor") || "",
+  alpha: urlParams.get("alpha") || "",
+  bgurl: urlParams.get("bu") || "",
+  icourl: urlParams.get("iu") || "",
+  semWl: urlParams.has("swl"),
+  apikey: urlParams.get("apikey") || "",
 };
 
-async function fazFetch(puuid, regiao) {
-  const request = await fetch("https://api.henrikdev.xyz/valorant/v1/raw", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      type: "matchhistory",
-      value: puuid,
-      region: regiao,
-      queries: "?startIndex=0&endIndex=20&queue=competitive",
-    }),
+const dom = {
+  rootStyle: document.documentElement.style,
+  imgRank: document.getElementById("imgRank"),
+  textoNmRank: document.getElementById("textonmrank"),
+  imgCantinho: document.getElementById("imgcantinho"),
+  headerRank: document.getElementById("headerburrao"),
+  wlValue: document.getElementById("WLvalue"),
+  ultMmr: document.getElementById("ultmmr"),
+  ultimaPartida: document.getElementById("ultimapartida"),
+  mmrAtual: document.getElementById("mmratual"),
+  kd: document.getElementById("kd"),
+  hsr: document.getElementById("hsr"),
+};
+
+const API_BASE = "https://api.henrikdev.xyz/valorant";
+
+const state = {
+  puuid: null,
+  wins: 0,
+  losses: 0,
+  lastMatchId: null,
+  processedWlMatchIds: new Set(),
+  processedStatsMatchIds: new Set(),
+  stats: {
+    headshots: 0,
+    bodyshots: 0,
+    legshots: 0,
+    kills: 0,
+    deaths: 0,
+  },
+};
+
+function buildApiUrl(path, queryParams = {}) {
+  const url = new URL(`${API_BASE}${path}`);
+  Object.entries(queryParams).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      url.searchParams.set(key, value);
+    }
   });
-  content = await request.json();
-
-  console.log(content);
-}
-
-function setapuuidNew() {
-  reqpuuid = fazGet(
-    "https://api.henrikdev.xyz/valorant/v1/account/" +
-      nmusuario +
-      "/" +
-      idusuario
-  );
-  let parsepuuid = JSON.parse(reqpuuid);
-  puuid = parsepuuid.data.puuid;
-}
-
-function getMatches() {
-  fazFetch(puuid, regiao);
-  setTimeout(ParseMatches,3000)
-}
-
-function ParseMatches() {
-  matches = content.History;
-  for (let i = 0; i < matches.length; i++) {
-    let obj = matches[i].MatchID;
-    arrayMatches.push(obj);
+  if (config.apikey) {
+    url.searchParams.set("api_key", config.apikey);
   }
-  console.log(arrayMatches);
-  for (let i = 0; i < arrayMatches.length; i++) {
-    let objID = matches[i].MatchID;
-    dadoPartida = fazGet(
-      "https://api.henrikdev.xyz/valorant/v2/match/" + objID
-    );
-    jsonDadoPartida = JSON.parse(dadoPartida);
-    let Player = jsonDadoPartida.data.players.all_players.find(
-      (jogador) => jogador.puuid === puuid
-    );
-    hsrateField = parseInt(hsrateField) + Number(Player.stats.headshots);
-    bsrateField = parseInt(bsrateField) + Number(Player.stats.bodyshots);
-    lsrateField = parseInt(lsrateField) + Number(Player.stats.legshots);
-    deaths = deaths + parseInt(Player.stats.deaths);
-    kills = kills + parseInt(Player.stats.kills);
-  }
-  calcKD = parseFloat(kills / deaths).toFixed(2);
-  calcHS =
-    Math.round(
-      (hsrateField / (hsrateField + bsrateField + lsrateField)) * 100
-    ) + "%";
-  calcLS =
-    Math.round(
-      (bsrateField / (hsrateField + bsrateField + lsrateField)) * 100
-    ) + "%";
-  calcBS =
-    Math.round(
-      (lsrateField / (hsrateField + bsrateField + lsrateField)) * 100
-    ) + "%";
-    document.getElementById('kd').innerHTML = 'K/D&nbsp' + calcKD;
-    document.getElementById('hsr').innerHTML = "HS " + calcHS;
+  return url.toString();
 }
 
-function getLastMatch() {
-  novaArray = [];
-  novoObj = [];
-  ultimaPartida = fazGet(
-    "https://api.henrikdev.xyz/valorant/v3/matches/" +
-      regiao +
-      "/" +
-      nmusuario +
-      "/" +
-      idusuario +
-      "?mode=competitive"
-  );
-  jsonUltimaPartida = JSON.parse(ultimaPartida);
-  let IDultimaPartida = jsonUltimaPartida.data[0].metadata.matchid;
-  let Partidas = jsonUltimaPartida.data;
-  let partidasNoData = jsonUltimaPartida;
-  if (arrayMatches.includes(IDultimaPartida)) {
+async function fetchJson(path, queryParams = {}, options = undefined) {
+  const response = await fetch(buildApiUrl(path, queryParams), options);
+  return response.json();
+}
+
+function applyInitialStyles() {
+  if (config.alpha === "ss") {
+    dom.textoNmRank.style.backgroundColor = "transparent";
+  } else if (config.alpha === "nn" && config.cor) {
+    dom.textoNmRank.style.backgroundColor = `#${config.cor}`;
+  }
+
+  if (config.bgurl) {
+    dom.textoNmRank.style.backgroundImage = `url(${config.bgurl})`;
+  }
+
+  if (!config.icourl) {
+    dom.imgCantinho.style.display = "none";
   } else {
-    for (let i = 0; i < Partidas.length; i++) {
-      novoObj = partidasNoData.data[i].metadata.matchid;
-      if (arrayMatches.includes(novoObj)) {
-      } else {
-        novaArray.push(novoObj);
+    dom.imgCantinho.style.content = `url(${config.icourl})`;
+  }
+
+  if (config.corfonte) {
+    const fontColor = `#${config.corfonte}`;
+    dom.headerRank.style.color = fontColor;
+    dom.wlValue.style.color = fontColor;
+    dom.kd.style.color = fontColor;
+    dom.hsr.style.color = fontColor;
+  }
+
+  if (config.semWl) {
+    dom.headerRank.style.top = "-5px";
+    dom.wlValue.style.display = "none";
+  }
+}
+
+async function fetchLeaderboardRank() {
+  try {
+    const region = config.regiao.toLowerCase();
+    const json = await fetchJson(`/v1/leaderboard/${region}`, {
+      name: config.nmusuario,
+      tag: config.idusuario,
+    });
+
+    if (json.status === 404 || !Array.isArray(json.data) || !json.data[0]) {
+      return null;
+    }
+    return json.data[0].leaderboardRank;
+  } catch (error) {
+    console.error("Erro ao buscar leaderboard:", error);
+    return null;
+  }
+}
+
+function extractActSeasonData(bySeason = {}) {
+  const preferredActs = ["e11a1", "e11a4", "e11aIV"];
+  for (const act of preferredActs) {
+    if (bySeason[act]) {
+      return {
+        numberOfGames: bySeason[act].number_of_games ?? 0,
+        hasNoData: Boolean(bySeason[act].error),
+      };
+    }
+  }
+
+  const seasonKeys = Object.keys(bySeason);
+  if (seasonKeys.length > 0) {
+    const latestSeason = bySeason[seasonKeys[seasonKeys.length - 1]];
+    return {
+      numberOfGames: latestSeason?.number_of_games ?? 0,
+      hasNoData: Boolean(latestSeason?.error),
+    };
+  }
+
+  return { numberOfGames: 0, hasNoData: true };
+}
+
+async function updateRank() {
+  try {
+    const encodedName = encodeURIComponent(config.nmusuario);
+    const encodedTag = encodeURIComponent(config.idusuario);
+    const json = await fetchJson(
+      `/v2/mmr/${config.regiao}/${encodedName}/${encodedTag}`
+    );
+
+    if (json.status !== 200 || !json.data?.current_data) {
+      return;
+    }
+
+    const current = json.data.current_data;
+    if (current.currenttier === null && !current.games_needed_for_rating) {
+      return;
+    }
+
+    const { numberOfGames, hasNoData } = extractActSeasonData(
+      json.data.by_season
+    );
+    const gamesNeeded = Number(current.games_needed_for_rating ?? 0);
+    const isUnranked =
+      numberOfGames < 5 || (hasNoData && gamesNeeded >= 5);
+
+    let eloText = current.currenttierpatched || "Unranked";
+    let tier = Number(current.currenttier ?? 0);
+    let rr = Number(current.ranking_in_tier ?? 0);
+    let rrText = rr;
+    let lastMmrChange = Number(current.mmr_change_to_last_game ?? 0);
+    let gamesPlayedInAct = hasNoData ? 0 : numberOfGames;
+
+    if (isUnranked) {
+      eloText = "Unranked";
+      tier = "Unranked";
+      rr = 100;
+    } else if (rr > 100) {
+      rr = 0;
+    }
+
+    dom.imgRank.src = `./Resources/${tier}.png`;
+
+    if (isUnranked) {
+      dom.headerRank.innerHTML = eloText;
+    } else if (tier === 27) {
+      const lbRank = await fetchLeaderboardRank();
+      dom.headerRank.innerHTML = lbRank
+        ? `${eloText} #${lbRank}`
+        : `${eloText} ${rrText}RR`;
+    } else {
+      dom.headerRank.innerHTML = `${eloText}&nbsp &nbsp;${rrText}RR`;
+    }
+
+    let progressPercent = `${rr}%`;
+    dom.mmrAtual.innerHTML = rr;
+
+    if (isUnranked) {
+      dom.ultimaPartida.innerHTML = `Unranked ${gamesPlayedInAct}/1`;
+    } else if (tier >= 24) {
+      dom.ultimaPartida.innerHTML = `Last Match: ${lastMmrChange}pts`;
+      if (lastMmrChange === 0) {
+        dom.ultMmr.style.backgroundColor = "grey";
+      } else if (lastMmrChange >= 1) {
+        progressPercent = "100%";
+      } else if (lastMmrChange <= -1) {
+        progressPercent = "0%";
+      }
+    } else {
+      const prefix = lastMmrChange >= 1 ? "+ " : "";
+      dom.ultimaPartida.innerHTML = `Last Match: ${prefix}${lastMmrChange}pts`;
+    }
+
+    dom.rootStyle.setProperty("--progresspontinho", progressPercent);
+
+    if (config.corfonte) {
+      const fontColor = `#${config.corfonte}`;
+      dom.headerRank.style.color = fontColor;
+      dom.wlValue.style.color = fontColor;
+      dom.kd.style.color = fontColor;
+      dom.hsr.style.color = fontColor;
+    }
+  } catch (error) {
+    console.error("Erro ao atualizar rank:", error);
+  }
+}
+
+async function ensurePuuid() {
+  if (state.puuid) return state.puuid;
+  const encodedName = encodeURIComponent(config.nmusuario);
+  const encodedTag = encodeURIComponent(config.idusuario);
+  const json = await fetchJson(`/v1/account/${encodedName}/${encodedTag}`);
+  state.puuid = json?.data?.puuid || null;
+  return state.puuid;
+}
+
+async function fetchCompetitiveMatches() {
+  const encodedName = encodeURIComponent(config.nmusuario);
+  const encodedTag = encodeURIComponent(config.idusuario);
+  const json = await fetchJson(
+    `/v3/matches/${config.regiao}/${encodedName}/${encodedTag}`,
+    { mode: "competitive" }
+  );
+  return Array.isArray(json?.data) ? json.data : [];
+}
+
+function renderWinLoss() {
+  dom.wlValue.innerHTML = `${state.wins} Win / ${state.losses} Lose`;
+}
+
+function evaluateMatchOutcome(match) {
+  const player = match?.players?.all_players?.find(
+    (p) => p.puuid === state.puuid
+  );
+  if (!player?.team) return null;
+
+  const teamKey = player.team.toLowerCase();
+  const redWon = Boolean(match?.teams?.red?.has_won);
+  const blueWon = Boolean(match?.teams?.blue?.has_won);
+  const isDraw = !redWon && !blueWon;
+  const teamWon = Boolean(match?.teams?.[teamKey]?.has_won);
+
+  return { isDraw, teamWon };
+}
+
+async function checkWinLoss() {
+  try {
+    const matches = await fetchCompetitiveMatches();
+    const latestMatch = matches[0];
+    const matchId = latestMatch?.metadata?.matchid;
+
+    if (!matchId || state.processedWlMatchIds.has(matchId)) {
+      renderWinLoss();
+      return;
+    }
+
+    state.processedWlMatchIds.add(matchId);
+
+    if (state.lastMatchId && matchId !== state.lastMatchId) {
+      const outcome = evaluateMatchOutcome(latestMatch);
+      if (outcome) {
+        if (outcome.teamWon) {
+          state.wins += 1;
+        } else if (!outcome.isDraw) {
+          state.losses += 1;
+        }
+        state.lastMatchId = matchId;
+      }
+    } else if (!state.lastMatchId) {
+      state.lastMatchId = matchId;
+    }
+
+    renderWinLoss();
+  } catch (error) {
+    console.error("Erro ao atualizar Win/Loss:", error);
+  }
+}
+
+async function initWinLossTracking() {
+  if (config.semWl) return;
+
+  try {
+    renderWinLoss();
+    await ensurePuuid();
+    const matches = await fetchCompetitiveMatches();
+    const firstMatchId = matches[0]?.metadata?.matchid;
+    if (firstMatchId) {
+      state.lastMatchId = firstMatchId;
+      state.processedWlMatchIds.add(firstMatchId);
+    }
+    setInterval(checkWinLoss, 30000);
+  } catch (error) {
+    console.error("Erro ao iniciar Win/Loss:", error);
+  }
+}
+
+function accumulatePlayerStatsFromMatchData(matchData) {
+  const player = matchData?.players?.all_players?.find(
+    (p) => p.puuid === state.puuid
+  );
+  if (!player?.stats) return;
+
+  state.stats.headshots += Number(player.stats.headshots || 0);
+  state.stats.bodyshots += Number(player.stats.bodyshots || 0);
+  state.stats.legshots += Number(player.stats.legshots || 0);
+  state.stats.kills += Number(player.stats.kills || 0);
+  state.stats.deaths += Number(player.stats.deaths || 0);
+}
+
+async function fetchAndAccumulateMatchStats(matchId) {
+  if (!matchId || state.processedStatsMatchIds.has(matchId)) return;
+
+  const json = await fetchJson(`/v2/match/${matchId}`);
+  if (json?.data) {
+    accumulatePlayerStatsFromMatchData(json.data);
+    state.processedStatsMatchIds.add(matchId);
+  }
+}
+
+function renderKdAndHs() {
+  const { kills, deaths, headshots, bodyshots, legshots } = state.stats;
+  const totalShots = headshots + bodyshots + legshots;
+
+  const kdRatio = deaths > 0 ? (kills / deaths).toFixed(2) : kills.toFixed(2);
+  const hsPercent =
+    totalShots > 0 ? Math.round((headshots / totalShots) * 100) : 0;
+
+  dom.kd.innerHTML = `K/D&nbsp${kdRatio}`;
+  dom.hsr.innerHTML = `HS ${hsPercent}%`;
+}
+
+async function initStatsTracking() {
+  try {
+    await ensurePuuid();
+    if (!state.puuid) return;
+
+    const rawHistory = await fetchJson(
+      "/v1/raw",
+      {},
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          type: "matchhistory",
+          value: state.puuid,
+          region: config.regiao,
+          queries: "?startIndex=0&endIndex=20&queue=competitive",
+        }),
+      }
+    );
+
+    const history = Array.isArray(rawHistory?.History)
+      ? rawHistory.History
+      : [];
+
+    for (const item of history) {
+      await fetchAndAccumulateMatchStats(item.MatchID);
+    }
+
+    renderKdAndHs();
+    setInterval(updateStatsWithLatestMatches, 60000);
+  } catch (error) {
+    console.error("Erro ao iniciar estatísticas K/D e HS:", error);
+  }
+}
+
+async function updateStatsWithLatestMatches() {
+  try {
+    const matches = await fetchCompetitiveMatches();
+    if (!matches.length) return;
+
+    const latestMatchId = matches[0]?.metadata?.matchid;
+    if (latestMatchId && state.processedStatsMatchIds.has(latestMatchId)) {
+      return;
+    }
+
+    for (const match of matches) {
+      const matchId = match?.metadata?.matchid;
+      if (matchId && !state.processedStatsMatchIds.has(matchId)) {
+        await fetchAndAccumulateMatchStats(matchId);
       }
     }
-    for (let i = 0; i < novaArray.length; i++) {
-      NovoobjID = novaArray[i];
-      ultimaPartidaDados = fazGet(
-        "https://api.henrikdev.xyz/valorant/v2/match/" + NovoobjID
-      );
-      jsonDadoPartida = JSON.parse(ultimaPartidaDados);
-      let Player = jsonDadoPartida.data.players.all_players.find(
-        (jogador) => jogador.puuid === puuid
-      );
-      hsrateField = parseInt(hsrateField) + Number(Player.stats.headshots);
-      bsrateField = parseInt(bsrateField) + Number(Player.stats.bodyshots);
-      lsrateField = parseInt(lsrateField) + Number(Player.stats.legshots);
-      deaths = deaths + parseInt(Player.stats.deaths);
-      kills = kills + parseInt(Player.stats.kills);
-    }
-    newArray = arrayMatches.concat(novaArray);
-    arrayMatches = newArray;
+
+    renderKdAndHs();
+  } catch (error) {
+    console.error("Erro ao atualizar K/D e HS:", error);
   }
 }
 
-function kdhs() {
-  getLastMatch();
-  calcKD = parseFloat(kills / deaths).toFixed(2);
-  calcHS =
-    Math.round(
-      (hsrateField / (hsrateField + bsrateField + lsrateField)) * 100
-    ) + "%";
-  calcLS =
-    Math.round(
-      (bsrateField / (hsrateField + bsrateField + lsrateField)) * 100
-    ) + "%";
-  calcBS =
-    Math.round(
-      (lsrateField / (hsrateField + bsrateField + lsrateField)) * 100
-    ) + "%";
-    document.getElementById('kd').innerHTML = 'K/D&nbsp' + calcKD;
-    document.getElementById('hsr').innerHTML = "HS " + calcHS;
+async function init() {
+  applyInitialStyles();
+
+  await updateRank();
+  setInterval(updateRank, 15000);
+
+  await initWinLossTracking();
+  await initStatsTracking();
 }
 
-setapuuidNew();
-getMatches();
-setInterval(kdhs, 60000);
+init();

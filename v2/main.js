@@ -1,296 +1,316 @@
-var url_string = window.location.href;
-var url = new URL(url_string);
-var sParams = url.searchParams;
-var regiao = url.searchParams.get("regiao");
-var idusuario = url.searchParams.get("idusuario");
-var nmusuario = url.searchParams.get("nmusuario");
-var cor = url.searchParams.get("color");
-var corfonte = url.searchParams.get("fontcolor");
-var alpha = url.searchParams.get("alpha");
-var bgurl = url.searchParams.get("bu");
-var icourl = url.searchParams.get("iu");
-var retornostatus = {};
-var dadosimportantesElo = {};
-var dadosimportantesmmr = {};
-var dadosimportantesultimojogo = {};
-var dadosimportantesnickconta = {};
-var leaderboardajustado = {};
-var checkifnull = {};
-var dadosimportantesTier = {};
-var dadosisunranked = {};
-var dadosleaderboard = {};
-var cssbarradepts = document.querySelector(":root").style;
-const bgpts = document.getElementById("ultmmr");
-const corbg = document.getElementById("textonmrank");
-var rankatuallog = {};
-var rankatualizado = {};
-var isunrankedatoatual = {};
-var jogosnecessarios = {};
-let puuid = {};
-let partida1 = {};
-let partida2 = {};
-let jsonDataWL = {};
-let reqpuuid = {};
-let dadoswl = {};
-let time = {};
-let win = 0;
-let lose = 0;
-let empatou = {};
-let semwc = url.searchParams.has("swl")
-let apikey = ''
-var matchIds = []
+const urlParams = new URLSearchParams(window.location.search);
 
-if (url.searchParams.has("apikey")){
-  apikey = url.searchParams.get("apikey")
-} else {
-  document.getElementById("imgRank").style.visibility = "hidden"
-  document.getElementById("textonmrank").style.visibility = "hidden"
-  document.getElementById("ultmmr").style.visibility = "hidden"
-  apikey = ''
+const config = {
+  regiao: urlParams.get("regiao") || "",
+  idusuario: urlParams.get("idusuario") || "",
+  nmusuario: urlParams.get("nmusuario") || "",
+  cor: urlParams.get("color") || "",
+  corfonte: urlParams.get("fontcolor") || "",
+  alpha: urlParams.get("alpha") || "",
+  bgurl: urlParams.get("bu") || "",
+  icourl: urlParams.get("iu") || "",
+  semWl: urlParams.has("swl"),
+  apikey: urlParams.get("apikey") || "",
+};
+
+const dom = {
+  rootStyle: document.documentElement.style,
+  imgRank: document.getElementById("imgRank"),
+  textoNmRank: document.getElementById("textonmrank"),
+  imgCantinho: document.getElementById("imgcantinho"),
+  headerRank: document.getElementById("headerburrao"),
+  wlValue: document.getElementById("WLvalue"),
+  ultMmr: document.getElementById("ultmmr"),
+  ultimaPartida: document.getElementById("ultimapartida"),
+  mmrAtual: document.getElementById("mmratual"),
+};
+
+const API_BASE = "https://api.henrikdev.xyz/valorant";
+
+const state = {
+  puuid: null,
+  wins: 0,
+  losses: 0,
+  lastMatchId: null,
+  processedMatchIds: new Set(),
+};
+
+function buildApiUrl(path, queryParams = {}) {
+  const url = new URL(`${API_BASE}${path}`);
+  Object.entries(queryParams).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      url.searchParams.set(key, value);
+    }
+  });
+  if (config.apikey) {
+    url.searchParams.set("api_key", config.apikey);
+  }
+  return url.toString();
 }
 
-function fazGet(url) {
-  let request = new XMLHttpRequest();
-  request.open("GET", url+"?api_key="+apikey, false);
-  request.send();
-  return request.responseText;
+async function fetchJson(path, queryParams = {}) {
+  const response = await fetch(buildApiUrl(path, queryParams));
+  return response.json();
 }
 
-function fazGetQuery(url) {
-  let request = new XMLHttpRequest();
-  request.open("GET", url+"&api_key="+apikey, false);
-  request.send();
-  return request.responseText;
+function applyInitialStyles() {
+  if (!config.apikey) {
+    dom.imgRank.style.visibility = "hidden";
+    dom.textoNmRank.style.visibility = "hidden";
+    dom.ultMmr.style.visibility = "hidden";
+  }
+
+  if (config.alpha === "ss") {
+    dom.textoNmRank.style.backgroundColor = "transparent";
+  } else if (config.alpha === "nn" && config.cor) {
+    dom.textoNmRank.style.backgroundColor = `#${config.cor}`;
+  }
+
+  if (config.bgurl) {
+    dom.textoNmRank.style.backgroundImage = `url(${config.bgurl})`;
+  }
+
+  if (!config.icourl) {
+    dom.imgCantinho.style.display = "none";
+  } else {
+    dom.imgCantinho.style.content = `url(${config.icourl})`;
+  }
+
+  if (config.corfonte) {
+    const fontColor = `#${config.corfonte}`;
+    dom.headerRank.style.color = fontColor;
+    dom.wlValue.style.color = fontColor;
+  }
+
+  if (config.semWl) {
+    dom.headerRank.style.top = "-5px";
+    dom.wlValue.style.display = "none";
+  }
 }
 
-function leaderboard() {
-  const reglow = regiao.toLowerCase();
-  let lb = fazGetQuery(
-    "https://api.henrikdev.xyz/valorant/v1/leaderboard/" +
-      reglow +
-      "?name=" +
-      nmusuario +
-      "&tag=" +
-      idusuario
-  );
-  var jsonDataLB = JSON.parse(lb);
-      if (jsonDataLB.status === 404){
-        dadosleaderboard = ' '
-      }else   dadosleaderboard = jsonDataLB.data[0].leaderboardRank;
-}
-
-function main() {
-  let dados = fazGet(
-    "https://api.henrikdev.xyz/valorant/v2/mmr/" +
-      regiao +
-      "/" +
-      nmusuario +
-      "/" +
-      idusuario
-  );
-  var jsonData = JSON.parse(dados);
-  let currentAct = 'e11a4';
+async function fetchLeaderboardRank() {
   try {
-  isunrankedatoatual = jsonData.data.by_season[currentAct].number_of_games;
-  nodataseasonatual = jsonData.data.by_season[currentAct].error;
-  } catch (e) {
-    currentAct = 'e11aIV';
-    try {
-      isunrankedatoatual = jsonData.data.by_season[currentAct].number_of_games;
-      nodataseasonatual = jsonData.data.by_season[currentAct].error;
-    } catch (e2) {
-      // Trate o erro caso nenhuma das duas opções funcione
-      console.error('Nenhum dos acts encontrados:', e2);
-      isunrankedatoatual = null;
-      nodataseasonatual = true;
+    const region = config.regiao.toLowerCase();
+    const json = await fetchJson(`/v1/leaderboard/${region}`, {
+      name: config.nmusuario,
+      tag: config.idusuario,
+    });
+
+    if (json.status === 404 || !Array.isArray(json.data) || !json.data[0]) {
+      return null;
     }
+    return json.data[0].leaderboardRank;
+  } catch (error) {
+    console.error("Erro ao buscar leaderboard:", error);
+    return null;
   }
-  retornostatus = jsonData.status;
-  checkifnull = jsonData.data.current_data.currenttier;
-  dadosimportantesElo = jsonData.data.current_data.currenttierpatched;
-  dadosimportantesmmr = jsonData.data.current_data.ranking_in_tier;
-  dadosimportantesmmrtxt = jsonData.data.current_data.ranking_in_tier;
-  dadosimportantesTier = jsonData.data.current_data.currenttier;
-  retornostatus = jsonData.status;
-  dadosimportantesultimojogo =
-    jsonData.data.current_data.mmr_change_to_last_game;
-  dadosimportantesnickconta = jsonData.data.name;
-  jateverank = jsonData.data.current_data.old;
-  jogosnecessarios = jsonData.data.current_data.games_needed_for_rating;
 }
 
-function foda() {
-  if (isunrankedatoatual < "1" || nodataseasonatual == "No data available" && jogosnecessarios == "1") {
-    dadosimportantesElo = "Unranked";
-    dadosimportantesmmr = "100";
-    dadosimportantesultimojogo = "nRanked";
-    dadosimportantesTier = "Unranked"
-    dadosimportantesmmrtxt
-    if (nodataseasonatual = "No data Available") {
-      isunrankedatoatual = 0;
-    } 
+function extractActSeasonData(bySeason = {}) {
+  const preferredActs = ["e11a4", "e11aIV"];
+  for (const act of preferredActs) {
+    if (bySeason[act]) {
+      return {
+        numberOfGames: bySeason[act].number_of_games ?? 0,
+        hasNoData: Boolean(bySeason[act].error),
+      };
+    }
   }
-  if (dadosimportantesmmr > "100") {
-    dadosimportantesmmr = "0";
-  }
-  document.getElementById("imgRank").src = "./Resources/" + dadosimportantesTier + ".png"
-  var atualporc = dadosimportantesmmr + "%";
-  document.getElementById("headerburrao").innerHTML = dadosimportantesElo + '&nbsp &nbsp;' +dadosimportantesmmrtxt + "RR";
-  if (dadosimportantesultimojogo === "nRanked"){
-    document.getElementById("headerburrao").innerHTML =
-      dadosimportantesElo;
-  }
-  if (dadosimportantesTier === 27) {
-    leaderboard();
-    if (dadosleaderboard === " "){    
-      document.getElementById("headerburrao").innerHTML =
-    dadosimportantesElo + " " + dadosimportantesmmrtxt + "RR";
 
-    } else
-    document.getElementById("headerburrao").innerHTML =
-      dadosimportantesElo + " #" + dadosleaderboard;
+  const seasonKeys = Object.keys(bySeason);
+  if (seasonKeys.length > 0) {
+    const latestSeason = bySeason[seasonKeys[seasonKeys.length - 1]];
+    return {
+      numberOfGames: latestSeason?.number_of_games ?? 0,
+      hasNoData: Boolean(latestSeason?.error),
+    };
   }
-  document.getElementById("mmratual").innerHTML = dadosimportantesmmr;
-  cssbarradepts.setProperty("--progresspontinho", atualporc);
 
-  const ultpart = document.getElementById("ultimapartida");
-  if (dadosimportantesultimojogo === "nRanked" && jateverank === false) {
-    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/5";
-  } else if (dadosimportantesultimojogo === "nRanked" && jateverank === true) {
-    ultpart.innerHTML = "Unranked " + isunrankedatoatual+"/5";}
-  else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo === 0) {
-    ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
-    bgpts.style.backgroundcolor = "grey";
-  } else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo >= 1) {
-    ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
-    atualporc = "100%";
-    cssbarradepts.setProperty("--progresspontinho", atualporc);
-  } else if (dadosimportantesTier >= "24" && dadosimportantesultimojogo <= -1) {
-    ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
-    atualporc = "0%";
-    cssbarradepts.setProperty("--progresspontinho", atualporc);
-  } else if (dadosimportantesultimojogo === 0) {
-    ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
-  } else if (dadosimportantesultimojogo >= 1) {
-    ultpart.innerHTML = "Last Match: + " + dadosimportantesultimojogo + "pts";
-  } else if (dadosimportantesultimojogo <= -1) {
-    ultpart.innerHTML = "Last Match: " + dadosimportantesultimojogo + "pts";
-  }
-  document.getElementById("headerburrao").style.color = "#" + corfonte;
-  document.getElementById("WLvalue").style.color = "#" + corfonte;
+  return { numberOfGames: 0, hasNoData: true };
 }
 
-if (sParams.get("alpha") === "ss") {
-  corbg.style.backgroundColor = "transparent";
-} else if (sParams.get("alpha") === "nn") {
-  corbg.style.backgroundColor = "#" + cor;
-}
-corbg.style.backgroundImage = "url(" + bgurl + ")";
-if (icourl.length == 0) {
-  document.getElementById("imgcantinho").style.display = "none";
-} else {
-  document.getElementById("imgcantinho").style.content = "url(" + icourl + ")";
+async function updateRank() {
+  try {
+    const encodedName = encodeURIComponent(config.nmusuario);
+    const encodedTag = encodeURIComponent(config.idusuario);
+    const json = await fetchJson(
+      `/v2/mmr/${config.regiao}/${encodedName}/${encodedTag}`
+    );
+
+    if (json.status !== 200 || !json.data?.current_data) {
+      return;
+    }
+
+    const current = json.data.current_data;
+    if (current.currenttier === null && !current.games_needed_for_rating) {
+      return;
+    }
+
+    const { numberOfGames, hasNoData } = extractActSeasonData(
+      json.data.by_season
+    );
+    const gamesNeeded = Number(current.games_needed_for_rating ?? 0);
+    const isUnranked =
+      numberOfGames < 1 || (hasNoData && gamesNeeded >= 1);
+
+    let eloText = current.currenttierpatched || "Unranked";
+    let tier = Number(current.currenttier ?? 0);
+    let rr = Number(current.ranking_in_tier ?? 0);
+    let rrText = rr;
+    let lastMmrChange = Number(current.mmr_change_to_last_game ?? 0);
+    let gamesPlayedInAct = hasNoData ? 0 : numberOfGames;
+
+    if (isUnranked) {
+      eloText = "Unranked";
+      tier = "Unranked";
+      rr = 100;
+    } else if (rr > 100) {
+      rr = 0;
+    }
+
+    dom.imgRank.src = `./Resources/${tier}.png`;
+
+    if (isUnranked) {
+      dom.headerRank.innerHTML = eloText;
+    } else if (tier === 27) {
+      const lbRank = await fetchLeaderboardRank();
+      dom.headerRank.innerHTML = lbRank
+        ? `${eloText} #${lbRank}`
+        : `${eloText} ${rrText}RR`;
+    } else {
+      dom.headerRank.innerHTML = `${eloText}&nbsp &nbsp;${rrText}RR`;
+    }
+
+    let progressPercent = `${rr}%`;
+    dom.mmrAtual.innerHTML = rr;
+
+    if (isUnranked) {
+      dom.ultimaPartida.innerHTML = `Unranked ${gamesPlayedInAct}/5`;
+    } else if (tier >= 24) {
+      dom.ultimaPartida.innerHTML = `Last Match: ${lastMmrChange}pts`;
+      if (lastMmrChange === 0) {
+        dom.ultMmr.style.backgroundColor = "grey";
+      } else if (lastMmrChange >= 1) {
+        progressPercent = "100%";
+      } else if (lastMmrChange <= -1) {
+        progressPercent = "0%";
+      }
+    } else {
+      const prefix = lastMmrChange >= 1 ? "+ " : "";
+      dom.ultimaPartida.innerHTML = `Last Match: ${prefix}${lastMmrChange}pts`;
+    }
+
+    dom.rootStyle.setProperty("--progresspontinho", progressPercent);
+
+    if (config.corfonte) {
+      const fontColor = `#${config.corfonte}`;
+      dom.headerRank.style.color = fontColor;
+      dom.wlValue.style.color = fontColor;
+    }
+  } catch (error) {
+    console.error("Erro ao atualizar rank:", error);
+  }
 }
 
-function thinking(){
-  if (document.getElementById("imgRank").src === window.location.origin + "/v2/Resources/Load.png"){
-    location.reload()
-  } 
-}
-setTimeout(thinking,10000);
-main();
-foda();
-
-rankatuallog = dadosimportantesTier;
-function checadados(){
-  if (retornostatus == "200" && checkifnull != null){
-    foda()
-    }
+function renderWinLoss() {
+  dom.wlValue.innerHTML = `${state.wins} Win / ${state.losses} Loss`;
 }
 
-setInterval(main, 15000);
-setInterval(checadados, 15000);
+async function fetchPuuid() {
+  const encodedName = encodeURIComponent(config.nmusuario);
+  const encodedTag = encodeURIComponent(config.idusuario);
+  const json = await fetchJson(`/v1/account/${encodedName}/${encodedTag}`);
+  state.puuid = json?.data?.puuid || null;
+}
 
-if (semwc === false){
-  function setapuuid(){
-    reqpuuid = fazGet("https://api.henrikdev.xyz/valorant/v1/account/"+
-      nmusuario +
-      "/" +
-      idusuario);
-      let parsepuuid = JSON.parse(reqpuuid)
-      puuid = parsepuuid.data.puuid;
+async function fetchLatestCompetitiveMatch() {
+  const encodedName = encodeURIComponent(config.nmusuario);
+  const encodedTag = encodeURIComponent(config.idusuario);
+  const json = await fetchJson(
+    `/v3/matches/${config.regiao}/${encodedName}/${encodedTag}`,
+    { mode: "competitive", size: 1 }
+  );
+  return json?.data?.[0] || null;
+}
+
+function evaluateMatchOutcome(match) {
+  const player = match?.players?.all_players?.find(
+    (p) => p.puuid === state.puuid
+  );
+  if (!player?.team) return null;
+
+  const teamKey = player.team.toLowerCase();
+  const redWon = Boolean(match?.teams?.red?.has_won);
+  const blueWon = Boolean(match?.teams?.blue?.has_won);
+  const isDraw = !redWon && !blueWon;
+  const teamWon = Boolean(match?.teams?.[teamKey]?.has_won);
+
+  return { isDraw, teamWon };
+}
+
+async function checkWinLoss() {
+  try {
+    const match = await fetchLatestCompetitiveMatch();
+    const matchId = match?.metadata?.matchid;
+    if (!matchId || state.processedMatchIds.has(matchId)) {
+      renderWinLoss();
+      return;
     }
-    
-    function get(){
-        dadoswl = fazGetQuery("https://api.henrikdev.xyz/valorant/v3/matches/"
-          + regiao +
-          "/" +
-          nmusuario +
-          "/" +
-          idusuario + 
-         "?mode=competitive&size=1");
-        jsonDataWL = JSON.parse(dadoswl);
-    }
-    
-    function getprimeirapartida(){
-      get();
-      partida1 = jsonDataWL.data[0].metadata.matchid;
-      matchIds.push(partida1);
-    return partida1;
-    }
-    
-    function achatime(){
-        let timedojogador = jsonDataWL.data[0].players.all_players.find(jogador => jogador.puuid === puuid);
-        time = timedojogador.team;
-        return time.toLowerCase()
-    }
-    
-    function venceu(){
-        if(jsonDataWL.data[0].teams.red.has_won == false && jsonDataWL.data[0].teams.blue.has_won == false){
-            empatou = 'S'
+
+    state.processedMatchIds.add(matchId);
+
+    if (state.lastMatchId && matchId !== state.lastMatchId) {
+      const outcome = evaluateMatchOutcome(match);
+      if (outcome) {
+        if (outcome.teamWon) {
+          state.wins += 1;
+        } else if (!outcome.isDraw) {
+          state.losses += 1;
         }
-        else{
-            empatou = 'N'
-        }
-        timevenceu = jsonDataWL.data[0].teams[achatime()].has_won;
-        return timevenceu;
+        state.lastMatchId = matchId;
+      }
+    } else if (!state.lastMatchId) {
+      state.lastMatchId = matchId;
     }
-    
-    function AtualizaVisual(){
-        document.getElementById("WLvalue").innerHTML = win + " Win / " + lose + " Loss";
-    }
-    
-    function winlose(){
-        get();
-        if (!matchIds.includes(jsonDataWL.data[0].metadata.matchid)){
-        matchIds.push(jsonDataWL.data[0].metadata.matchid);
-        venceu();
-        partida2 = jsonDataWL.data[0].metadata.matchid;
-        if (partida2 != partida1){
-                if(timevenceu === true){
-                    var totalwin = win + 1;
-                    win = totalwin;
-                    partida1 = jsonDataWL.data[0].metadata.matchid;
-                    AtualizaVisual();
-                }
-                else if(timevenceu===false && empatou === 'N'){
-                    var totallose = lose + 1;
-                    lose = totallose;
-                    partida1 = jsonDataWL.data[0].metadata.matchid;
-                }
-        }
-        }
-        AtualizaVisual()
-    }
-    
-    
-    setapuuid()
-    getprimeirapartida()
-    setInterval(winlose, 30000);
-    AtualizaVisual();
-}
-else if (semwc === true){
-  document.getElementById("headerburrao").style.top = "-5px";
-  document.getElementById("WLvalue").style.display = none;
 
+    renderWinLoss();
+  } catch (error) {
+    console.error("Erro ao atualizar Win/Loss:", error);
+  }
 }
+
+async function initWinLossTracking() {
+  if (config.semWl) return;
+
+  try {
+    renderWinLoss();
+    await fetchPuuid();
+    const firstMatch = await fetchLatestCompetitiveMatch();
+    const firstMatchId = firstMatch?.metadata?.matchid;
+    if (firstMatchId) {
+      state.lastMatchId = firstMatchId;
+      state.processedMatchIds.add(firstMatchId);
+    }
+    setInterval(checkWinLoss, 30000);
+  } catch (error) {
+    console.error("Erro ao iniciar Win/Loss:", error);
+  }
+}
+
+function checkLoadingStuck() {
+  if (dom.imgRank.src === `${window.location.origin}/v2/Resources/Load.png`) {
+    location.reload();
+  }
+}
+
+async function init() {
+  applyInitialStyles();
+  setTimeout(checkLoadingStuck, 10000);
+
+  await updateRank();
+  setInterval(updateRank, 15000);
+
+  await initWinLossTracking();
+}
+
+init();
