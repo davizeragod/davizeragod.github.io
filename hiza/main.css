@@ -1,0 +1,233 @@
+:root {
+  --progresspontinho: 0%;
+  --cypher-bg: #2e2541;
+  --cypher-border: #8b5cf6;
+  --cypher-accent: #c4b5fd;
+  --cypher-subtext: #dbd1fc;
+  --cypher-bar-track: rgba(36, 17, 78, 0.72);
+  --cypher-bar-fill: linear-gradient(90deg, #925bf0 0%, #a855f7 100%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: transparent;
+  font-family: "Outfit", sans-serif;
+  user-select: none;
+  overflow: hidden;
+}
+
+#div1 {
+  position: relative;
+  padding: 12px;
+  width: 408px;
+  height: 148px;
+}
+
+#elements {
+  position: relative;
+  width: 384px;
+  height: 122px;
+}
+
+/* Card principal arredondado (estilo minimalista roxo) */
+#textonmrank {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 384px;
+  height: 122px;
+  background-color: var(--cypher-bg);
+  /* background-image: radial-gradient(
+    circle at 85% 50%,
+    rgba(139, 92, 246, 0.14),
+    rgba(24, 18, 36, 0.98) 70%
+  ); */
+  background-size: cover;
+  background-position: center;
+  /* border: 1.5px solid var(--cypher-border); */
+  border-radius: 14px;
+  /* box-shadow:
+    0 0 14px rgba(139, 92, 246, 0.35),
+    inset 0 0 12px rgba(139, 92, 246, 0.08); */
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Ponto luminoso discreto (lente da Spycam do Cypher) */
+#spycam-dot {
+  position: absolute;
+  top: 11px;
+  right: 12px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #a855f7;
+  box-shadow: 0 0 8px #a855f7;
+  z-index: 4;
+  animation: spycamPulse 3s ease-in-out infinite;
+}
+
+@keyframes spycamPulse {
+  0%, 100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.9);
+  }
+}
+
+/* Marca d'água da silhueta do Cypher à direita */
+#imgcantinho {
+  position: absolute;
+  right: -50px;
+  /* bottom: -8px; */
+  height: 200px;
+  width: auto;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Emblema do Rank à esquerda */
+#imgRank {
+  position: absolute;
+  top: 5px;
+  /* left: 18px; */
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  /* filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55)); */
+  z-index: 4;
+}
+
+/* Bloco de texto central (Rank + RR e Win/Loss) */
+.info-content {
+  position: absolute;
+  top: 15px;
+  left: 116px;
+  right: 20px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#headerburrao {
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+#headerburrao .rr-accent {
+  color: var(--cypher-accent);
+  font-weight: 700;
+  margin-left: 6px;
+}
+
+.sub-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#WLvalue {
+  font-size: 15.5px;
+  font-weight: 400;
+  color: var(--cypher-subtext);
+  line-height: 1.2;
+}
+
+.stats-row {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.stats-row.visible {
+  display: flex;
+}
+
+#kd,
+#hsr {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #ddd6fe;
+  /* background: rgba(139, 92, 246, 0.18); */
+  /* border: 1px solid rgba(139, 92, 246, 0.35); */
+  padding: 6px;
+  /* border-radius: 6px; */
+}
+
+/* Barra de progresso em pílula arredondada */
+#ultmmr {
+  position: absolute;
+  top: 80px;
+  left: 116px;
+  width: 242px;
+  height: 2px;
+  background-color: var(--cypher-bar-track);
+  /* border: 1px solid rgba(168, 85, 247, 0.55); */
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 4;
+}
+
+#ultmmr::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--progresspontinho);
+  background: var(--cypher-bar-fill);
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+  border-radius: 999px;
+  transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+}
+
+#ultimapartida {
+  position: absolute;
+  top: 86px;
+  left: 170px;
+  width: 242px;
+  height: 28px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+  z-index: 2;
+  letter-spacing: 0.01em;
+}
+
+#ultimapartida .rr-accent {
+  color: var(--cypher-accent);
+  font-weight: 700;
+}
+
+#ultimapartida .rr-positive {
+  color: #4ade80;
+  font-weight: 700;
+}
+
+#ultimapartida .rr-negative {
+  color: #f87171;
+  font-weight: 700;
+}
+
+#mmrat {
+  display: none;
+}
