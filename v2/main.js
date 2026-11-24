@@ -107,7 +107,7 @@ async function fetchLeaderboardRank() {
 }
 
 function extractActSeasonData(bySeason = {}) {
-  const preferredActs = ["e11a4", "e11aIV"];
+  const preferredActs = ["e11a6", "e11aVI"];
   for (const act of preferredActs) {
     if (bySeason[act]) {
       return {
