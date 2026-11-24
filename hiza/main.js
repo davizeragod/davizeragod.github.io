@@ -10,7 +10,7 @@ const config = {
   bgurl: urlParams.get("bu") || "",
   icourl: urlParams.get("iu") || "",
   semWl: urlParams.has("swl"),
-  showStats: urlParams.has("stats") && urlParams.get("stats") !== "0",
+  showStats: !urlParams.has("stats") || urlParams.get("stats") !== "0",
   apikey: urlParams.get("apikey") || "",
 };
 
@@ -99,6 +99,8 @@ function applyInitialStyles() {
     const fontColor = `#${config.corfonte}`;
     dom.headerRank.style.color = fontColor;
     dom.wlValue.style.color = fontColor;
+    dom.kd.style.color = fontColor;
+    dom.hsr.style.color = fontColor;
   }
 
   if (config.semWl) {
@@ -287,12 +289,40 @@ function evaluateMatchOutcome(match) {
   return { isDraw, teamWon };
 }
 
+function accumulatePlayerStatsFromMatchData(matchData) {
+  const player = matchData?.players?.all_players?.find(
+    (p) => p.puuid === state.puuid
+  );
+  if (!player?.stats) return;
+
+  state.stats.headshots += Number(player.stats.headshots || 0);
+  state.stats.bodyshots += Number(player.stats.bodyshots || 0);
+  state.stats.legshots += Number(player.stats.legshots || 0);
+  state.stats.kills += Number(player.stats.kills || 0);
+  state.stats.deaths += Number(player.stats.deaths || 0);
+}
+
+function renderKdAndHs() {
+  if (!config.showStats) return;
+
+  const { kills, deaths, headshots, bodyshots, legshots } = state.stats;
+  const totalShots = headshots + bodyshots + legshots;
+
+  const kdRatio = deaths > 0 ? (kills / deaths).toFixed(2) : kills.toFixed(2);
+  const hsPercent =
+    totalShots > 0 ? Math.round((headshots / totalShots) * 100) : 0;
+
+  dom.kd.innerHTML = `K/D&nbsp;${kdRatio}`;
+  dom.hsr.innerHTML = `HS ${hsPercent}%`;
+}
+
 async function checkWinLoss() {
   try {
     const match = await fetchLatestCompetitiveMatch();
     const matchId = match?.metadata?.matchid;
     if (!matchId || state.processedMatchIds.has(matchId)) {
       renderWinLoss();
+      renderKdAndHs();
       return;
     }
 
@@ -306,6 +336,7 @@ async function checkWinLoss() {
         } else if (!outcome.isDraw) {
           state.losses += 1;
         }
+        accumulatePlayerStatsFromMatchData(match);
         state.lastMatchId = matchId;
       }
     } else if (!state.lastMatchId) {
@@ -313,16 +344,18 @@ async function checkWinLoss() {
     }
 
     renderWinLoss();
+    renderKdAndHs();
   } catch (error) {
-    console.error("Erro ao atualizar Win/Loss:", error);
+    console.error("Erro ao atualizar sessão (Win/Loss, K/D e HS):", error);
   }
 }
 
 async function initWinLossTracking() {
-  if (config.semWl) return;
+  if (config.semWl && !config.showStats) return;
 
   try {
     renderWinLoss();
+    renderKdAndHs();
     await ensurePuuid();
     const firstMatch = await fetchLatestCompetitiveMatch();
     const firstMatchId = firstMatch?.metadata?.matchid;
@@ -332,7 +365,7 @@ async function initWinLossTracking() {
     }
     setInterval(checkWinLoss, 30000);
   } catch (error) {
-    console.error("Erro ao iniciar Win/Loss:", error);
+    console.error("Erro ao iniciar tracking da sessão:", error);
   }
 }
 
