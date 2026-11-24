@@ -4,13 +4,6 @@ const config = {
   regiao: urlParams.get("regiao") || "",
   idusuario: urlParams.get("idusuario") || "",
   nmusuario: urlParams.get("nmusuario") || "",
-  cor: urlParams.get("color") || "",
-  corfonte: urlParams.get("fontcolor") || "",
-  alpha: urlParams.get("alpha") || "",
-  bgurl: urlParams.get("bu") || "",
-  icourl: urlParams.get("iu") || "",
-  semWl: urlParams.has("swl"),
-  showStats: !urlParams.has("stats") || urlParams.get("stats") !== "0",
   apikey: urlParams.get("apikey") || "",
 };
 
@@ -66,10 +59,6 @@ async function fetchJson(path, queryParams = {}, options = undefined) {
 }
 
 function setupWatermarkFallback() {
-  if (config.icourl) {
-    dom.imgCantinho.src = config.icourl;
-    return;
-  }
   // Tenta carregar ./Resources/char.svg por padrão; se substituir por char.png, faz fallback automático
   dom.imgCantinho.onerror = () => {
     if (!dom.imgCantinho.src.endsWith("char.png")) {
@@ -83,31 +72,7 @@ function setupWatermarkFallback() {
 function applyInitialStyles() {
   setupWatermarkFallback();
 
-  if (config.alpha === "ss") {
-    dom.textoNmRank.style.background = "transparent";
-    dom.textoNmRank.style.borderColor = "transparent";
-    dom.textoNmRank.style.boxShadow = "none";
-  } else if (config.cor && config.cor.toLowerCase() !== "282b30") {
-    dom.textoNmRank.style.backgroundColor = `#${config.cor}`;
-  }
-
-  if (config.bgurl) {
-    dom.textoNmRank.style.backgroundImage = `url(${config.bgurl})`;
-  }
-
-  if (config.corfonte && config.corfonte.toLowerCase() !== "ffffff") {
-    const fontColor = `#${config.corfonte}`;
-    dom.headerRank.style.color = fontColor;
-    dom.wlValue.style.color = fontColor;
-    dom.kd.style.color = fontColor;
-    dom.hsr.style.color = fontColor;
-  }
-
-  if (config.semWl) {
-    dom.wlValue.style.display = "none";
-  }
-
-  if (config.showStats && dom.statsRow) {
+  if (dom.statsRow) {
     dom.statsRow.classList.add("visible");
   }
 }
@@ -124,10 +89,8 @@ function renderDemoPreview() {
   dom.wlValue.innerHTML = "3 Win / 1 Loss";
   dom.ultimaPartida.innerHTML = `Last Match: <span class="rr-negative">-21pts</span>`;
   dom.rootStyle.setProperty("--progresspontinho", "64%");
-  if (config.showStats) {
-    dom.kd.innerHTML = "K/D 1.32";
-    dom.hsr.innerHTML = "HS 29%";
-  }
+  dom.kd.innerHTML = "K/D 1.32";
+  dom.hsr.innerHTML = "HS 29%";
 }
 
 async function fetchLeaderboardRank() {
@@ -303,8 +266,6 @@ function accumulatePlayerStatsFromMatchData(matchData) {
 }
 
 function renderKdAndHs() {
-  if (!config.showStats) return;
-
   const { kills, deaths, headshots, bodyshots, legshots } = state.stats;
   const totalShots = headshots + bodyshots + legshots;
 
@@ -351,8 +312,6 @@ async function checkWinLoss() {
 }
 
 async function initWinLossTracking() {
-  if (config.semWl && !config.showStats) return;
-
   try {
     renderWinLoss();
     renderKdAndHs();
