@@ -340,8 +340,8 @@ function checkLoadingStuck() {
   if (
     config.apikey &&
     config.nmusuario &&
-    (dom.imgRank.src.endsWith("/Resources/Load.png") ||
-      dom.imgRank.src.endsWith("/Resources/Load.svg"))
+    (dom.imgRank.src.endsWith("/Resources/load.png") ||
+      dom.imgRank.src.endsWith("/Resources/load.svg"))
   ) {
     location.reload();
   }
